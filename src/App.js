@@ -1,19 +1,29 @@
 import React from 'react'
-import Navbar from './componants/Navbar'
 
-// import {Routes,Route} from 'react-router-dom'
+
+import {Routes,Route} from 'react-router-dom'
+import Home from './componants/Home'
+import About from './componants/About'
+import Services from './componants/Services'
+import Footer1 from './Common/Footer1'
+
 
 
 
 const App = () => {
   return (
    <>
-    <main>
-      
-          <Navbar/>
-       
-       
-    </main>
+  
+  <div>
+<Routes>
+
+          <Route index path="/" element={<Home/>} />
+          <Route path="/about" element={<About/>} />
+          <Route path="/services" element={<Services/>} />
+</Routes>
+
+<Footer1/>
+  </div>
    </>
   )
 }

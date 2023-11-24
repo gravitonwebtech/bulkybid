@@ -1,0 +1,22 @@
+.home-banner-section {
+    background-image: url("../assets/images/Homepageimages/homebanner.jpg");
+    background-attachment: fixed;
+    height: 100vh;
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .second-banner-section{
+    background-image: url("../assets/images/Homepageimages/secondparallax.jpg");
+    background-attachment: fixed;
+    height: 70vh;
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  @media only screen and (max-width: 768px) {
+    .second-banner-section{
+        height: 120vh;   
+    }
+
+  }
