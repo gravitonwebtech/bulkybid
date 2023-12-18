@@ -1,0 +1,29 @@
+.home-banner-section {
+  background-image: url("../assets/images/Homepageimages/bilky-banner-img.jpg");
+  background-attachment: fixed;
+  height: 100vh;
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@media (max-width: 768px) {
+  .home-banner-section {
+    height: auto;
+  }
+}
+
+.home-middle-banner {
+  background-image: url("../assets/images/Homepageimages/home-image3.jpg");
+  /* background-attachment: fixed; */
+  height: 70vh;
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+@media (max-width: 768px) {
+  .home-middle-banner {
+    height: auto;
+    padding-bottom: 20px;
+  }
+}

@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Patua+One&family=Poppins&display=swap');
+
+.about-banner-img{
+  background-image: url("../assets/images/AboutImg/About-Img2.jpg");
+  background-attachment: fixed;
+  height:50vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@media (max-width: 768px){
+    .about-banner-img{
+      height:30vh;
+  }
+  }
