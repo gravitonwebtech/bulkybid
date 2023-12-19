@@ -25,7 +25,7 @@ const About = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-10 mx-5 sm:mx-10 md:mx-20 lg:mx-24 xl:mx-28 mt-10 md:mt-16">
         <div className="">
-          <h1 className="text-white text-2xl md:text-4xl font-bold text-[#031B4E] text-justify">
+          <h1 className="text-2xl md:text-4xl font-bold text-[#031B4E] text-justify">
             We offer customers a wide range of
             <span className="text-[#f0bb3a]"> commercial cars </span>
             and <span className="text-[#f0bb3a]">luxury cars </span> for any

@@ -6,66 +6,76 @@ import {
   faRoad,
   faTag,
   faMapPin,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
+import { faGoogle, faFacebook } from "@fortawesome/free-brands-svg-icons";
+import { faCircleCheck } from '@fortawesome/free-regular-svg-icons';
 import Image2 from "../assets/images/Homepageimages/home-image1.png";
+import Google from "../assets/images/Homepageimages/goole image.png";
+import Facebook from "../assets/images/Homepageimages/facebook_image.png";
 import CountUp from "react-countup";
 import Navbar from "../Common/Navbar";
 
 const Home = () => {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
     phone: "",
-    city: "",
+    otp: "",
   });
 
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
 
-    // Clear the error for the current field when the user starts typing
-    setErrors({
-      ...errors,
-      [e.target.name]: "",
-    });
+    // Clear validation errors when user starts typing
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: undefined,
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Basic validations
-    const newErrors = {};
-    if (!formData.name) newErrors.name = "Name is required";
-    if (!formData.email) newErrors.email = "Email is required";
-    if (!/^\S+@\S+\.\S+$/.test(formData.email))
-      newErrors.email = "Invalid email format";
-    if (!formData.phone) newErrors.phone = "Phone number is required";
-    if (!/^\d{10}$/.test(formData.phone))
-      newErrors.phone = "Invalid phone number (10 digits)";
-    if (!formData.city) newErrors.city = "City is required";
+    // Perform validation before submitting
+    const validationErrors = {};
+
+    // Phone number validation
+    if (!formData.phone) {
+      validationErrors.phone = "Phone number is required";
+    } else if (!/^\d{10}$/.test(formData.phone)) {
+      validationErrors.phone = "Invalid phone number (10 digits)";
+    }
+
+    // OTP validation
+    if (!formData.otp) {
+      validationErrors.otp = "OTP is required";
+    } else if (!/^\d{6}$/.test(formData.otp)) {
+      validationErrors.otp = "Invalid OTP (6 digits)";
+    }
 
     // If there are errors, prevent form submission
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
       return;
     }
 
-    // If no errors, proceed with form submission
+    // No validation errors, proceed with form submission
+    setShowSuccessModal(true);
     console.log("Form Data:", formData);
-
-    // Reset form data after submission
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      city: "",
-    });
-    setErrors({});
+    setFormData({ phone: "", otp: "" });
   };
+
+  const closeModal = () => {
+    // Close the success modal
+    setShowSuccessModal(false);
+  };
+
   return (
     <>
       <div className="home-banner-section">
@@ -126,74 +136,105 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="bg-black bg-opacity-20 shadow-xl rounded-2xl p-5 mx-auto w-full min-h-64 sm:max-w-[30rem] mt-5 md:mt-28">
+          <div className="bg-black bg-opacity-20 shadow-xl rounded-2xl p-5 mx-auto w-full min-h-64 sm:max-w-[30rem] mt-5 md:mt-28 lg:mt-36 xl:mt-44">
             <h1 class="font-semibold text-2xl text-white mb-4">
               Let's Connect
             </h1>
 
-            <form onSubmit={handleSubmit}>
-              <label className="text-lg  text-white">Name</label>
-              <p className="mt-2 mb-2">
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  placeholder="Enter Your Name"
-                  className="bg-transparent border-2 p-2 rounded-[4px] w-full"
-                  value={formData.name}
-                  onChange={handleChange}
-                />
-                {errors.name && <p className="text-red-500">{errors.name}</p>}
-              </p>
+            <div>
+              <form onSubmit={handleSubmit}>
+                <label className="text-lg text-white">Phone Number</label>
+                <div className="mt-2 mb-2">
+                  <input
+                    type="text"
+                    id="pnum"
+                    name="phone"
+                    placeholder="Phone Number"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    className={`bg-transparent border-2 p-2 rounded-[4px] w-full text-white ${
+                      errors.phone ? "border-red-500" : ""
+                    }`}
+                  />
+                  {errors.phone && (
+                    <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
+                  )}
+                </div>
 
-              <label className="text-lg text-white">Email</label>
-              <p className="mt-2 mb-2">
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="Enter Your Email"
-                  className="bg-transparent border-2 p-2 rounded-[4px] w-full"
-                  value={formData.email}
-                  onChange={handleChange}
-                />
-                {errors.email && <p className="text-red-500">{errors.email}</p>}
-              </p>
+                <label className="text-lg text-white">Enter OTP</label>
+                <div className="mt-2 mb-2">
+                  <input
+                    type="text"
+                    id="otp"
+                    name="otp"
+                    placeholder="Enter OTP"
+                    value={formData.otp}
+                    onChange={handleChange}
+                    className={`bg-transparent border-2 p-2 rounded-[4px] w-full text-white ${
+                      errors.otp ? "border-red-500" : ""
+                    }`}
+                  />
+                  {errors.otp && (
+                    <p className="text-red-500 text-sm mt-1">{errors.otp}</p>
+                  )}
+                </div>
 
-              <label className="text-lg text-white">Contact Number</label>
-              <p className="mt-2 mb-2">
-                <input
-                  type="text"
-                  id="pnum"
-                  name="phone"
-                  placeholder="Phone Number"
-                  className="bg-transparent border-2 p-2 rounded-[4px] w-full"
-                  value={formData.phone}
-                  onChange={handleChange}
-                />
-                {errors.phone && <p className="text-red-500">{errors.phone}</p>}
-              </p>
+                <div className="mt-4">
+                  <button
+                    type="submit"
+                    className="bg-[#f0bb3a] font-semibold w-full text-white px-4 py-2 rounded-[4px]"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
 
-              <label className="text-lg  text-white">Related to</label>
-              <p className="mt-2">
-                <input
-                  type="text"
-                  id="city"
-                  name="city"
-                  placeholder="City"
-                  className="bg-transparent border-2 p-2 rounded-[4px] w-full"
-                  value={formData.city}
-                  onChange={handleChange}
-                />
-                {errors.city && <p className="text-red-500">{errors.city}</p>}
-              </p>
+              {/* Success Modal */}
+              {showSuccessModal && (
+                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center">
+                  <div
+                    className="absolute w-full h-full bg-gray-900 opacity-50"
+                    onClick={closeModal}
+                  ></div>
+                  <div className="bg-white p-8 rounded-lg z-10 relative">
+                    {/* Cross icon to close the modal */}
+                    <div
+                      className="absolute top-2 right-2 cursor-pointer"
+                      onClick={closeModal}
+                    >
+                      <FontAwesomeIcon
+                        icon={faTimes}
+                        className="text-gray-500"
+                      />
+                    </div>
+                    <div className="flex justify-center">
+                    <FontAwesomeIcon icon={faCircleCheck} className="text-green-500 h-10 w-10" />
+                    </div>
+                    <p className="mt-4 text-black text-xl font-semibold">
+                      Form submitted successfully!
+                    </p>
+                  </div>
+                </div>
+              )}
 
-              <div className="mt-5 ">
-                <button className="bg-[#f0bb3a] font-semibold w-full text-white px-4 py-2 rounded-[4px]">
-                  GET STARTED
-                </button>
+              <h1 className="text-gray-400 mt-4 text-center">OR</h1>
+
+              <div className="flex justify-center mt-4">
+                <span className="pr-16">
+                  <img src={Google} className="h-10 w-10" alt="Google Icon" />
+                </span>
+
+                <div className="border-r border-gray-400 h-8"></div>
+
+                <span className="pl-10">
+                  <img
+                    src={Facebook}
+                    className="h-10 w-15"
+                    alt="Facebook Icon"
+                  />
+                </span>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>

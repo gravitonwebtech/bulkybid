@@ -11,11 +11,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    city: '',
-    message: '',
+    name: "",
+    email: "",
+    phone: "",
+    city: "",
+    message: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -29,7 +29,7 @@ const Contact = () => {
     // Clear the error for the current field when the user starts typing
     setErrors({
       ...errors,
-      [e.target.name]: '',
+      [e.target.name]: "",
     });
   };
 
@@ -38,13 +38,15 @@ const Contact = () => {
 
     // Basic validations
     const newErrors = {};
-    if (!formData.name) newErrors.name = 'Name is required';
-    if (!formData.email) newErrors.email = 'Email is required';
-    if (!/^\S+@\S+\.\S+$/.test(formData.email)) newErrors.email = 'Invalid email format';
-    if (!formData.phone) newErrors.phone = 'Phone number is required';
-    if (!/^\d{10}$/.test(formData.phone)) newErrors.phone = 'Invalid phone number (10 digits)';
-    if (!formData.city) newErrors.city = 'City is required';
-    if (!formData.message) newErrors.message = 'Message is required';
+    if (!formData.name) newErrors.name = "Name is required";
+    if (!formData.email) newErrors.email = "Email is required";
+    if (!/^\S+@\S+\.\S+$/.test(formData.email))
+      newErrors.email = "Invalid email format";
+    if (!formData.phone) newErrors.phone = "Phone number is required";
+    if (!/^\d{10}$/.test(formData.phone))
+      newErrors.phone = "Invalid phone number (10 digits)";
+    if (!formData.city) newErrors.city = "City is required";
+    if (!formData.message) newErrors.message = "Message is required";
 
     // If there are errors, prevent form submission
     if (Object.keys(newErrors).length > 0) {
@@ -53,15 +55,15 @@ const Contact = () => {
     }
 
     // If no errors, proceed with form submission
-    console.log('Form Data:', formData);
+    console.log("Form Data:", formData);
 
     // Reset form data after submission
     setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      city: '',
-      message: '',
+      name: "",
+      email: "",
+      phone: "",
+      city: "",
+      message: "",
     });
     setErrors({});
   };
@@ -89,80 +91,82 @@ const Contact = () => {
             Do you have any question?
           </h2>
           <form onSubmit={handleSubmit}>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
-        <div className="mt-2">
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="Enter Your Name"
-            className="bg-transparent border-2 p-2 rounded-[4px] w-full"
-          />
-          {errors.name && <p className="text-red-500">{errors.name}</p>}
-        </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
+              <div className="mt-2">
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Enter Your Name"
+                  className="bg-transparent border-2 p-2 rounded-[4px] w-full"
+                />
+                {errors.name && <p className="text-red-500">{errors.name}</p>}
+              </div>
 
-        <div className="mt-2">
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Enter Your Email"
-            className="bg-transparent border-2 p-2 rounded-[4px] w-full"
-          />
-          {errors.email && <p className="text-red-500">{errors.email}</p>}
-        </div>
+              <div className="mt-2">
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Enter Your Email"
+                  className="bg-transparent border-2 p-2 rounded-[4px] w-full"
+                />
+                {errors.email && <p className="text-red-500">{errors.email}</p>}
+              </div>
 
-        <div className="">
-          <input
-            type="text"
-            id="pnum"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            placeholder="Phone Number"
-            className="bg-transparent border-2 p-2 rounded-[4px] w-full"
-          />
-          {errors.phone && <p className="text-red-500">{errors.phone}</p>}
-        </div>
+              <div className="">
+                <input
+                  type="text"
+                  id="pnum"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  placeholder="Phone Number"
+                  className="bg-transparent border-2 p-2 rounded-[4px] w-full"
+                />
+                {errors.phone && <p className="text-red-500">{errors.phone}</p>}
+              </div>
 
-        <div className="">
-          <input
-            type="text"
-            id="city"
-            name="city"
-            value={formData.city}
-            onChange={handleChange}
-            placeholder="City"
-            className="bg-transparent border-2 p-2 rounded-[4px] w-full"
-          />
-          {errors.city && <p className="text-red-500">{errors.city}</p>}
-        </div>
-      </div>
-      <div className="mt-5">
-        <textarea
-          value={formData.message}
-          onChange={handleChange}
-          className="bg-transparent border-2 p-2 rounded-[4px] w-full"
-          rows="4"
-          name="message"
-          placeholder="Your Message"
-        ></textarea>
-        {errors.message && <p className="text-red-500">{errors.message}</p>}
-      </div>
+              <div className="">
+                <input
+                  type="text"
+                  id="city"
+                  name="city"
+                  value={formData.city}
+                  onChange={handleChange}
+                  placeholder="City"
+                  className="bg-transparent border-2 p-2 rounded-[4px] w-full"
+                />
+                {errors.city && <p className="text-red-500">{errors.city}</p>}
+              </div>
+            </div>
+            <div className="mt-5">
+              <textarea
+                value={formData.message}
+                onChange={handleChange}
+                className="bg-transparent border-2 p-2 rounded-[4px] w-full"
+                rows="4"
+                name="message"
+                placeholder="Your Message"
+              ></textarea>
+              {errors.message && (
+                <p className="text-red-500">{errors.message}</p>
+              )}
+            </div>
 
-      <div className="mt-5">
-        <button
-          type="submit"
-          className="bg-[#f0bb3a] font-semibold text-white px-4 py-2 rounded-[4px]"
-        >
-          Send Message
-        </button>
-      </div>
-    </form>
+            <div className="mt-5">
+              <button
+                type="submit"
+                className="bg-[#f0bb3a] font-semibold text-white px-4 py-2 rounded-[4px]"
+              >
+                Send Message
+              </button>
+            </div>
+          </form>
         </div>
         <div className="md:col-span-5">
           <div className="bg-white shadow border border-gray-200 p-5 md:p-10 h-full rounded-[4px]">

@@ -46,7 +46,11 @@ const Navbar = () => {
         <div className="flex justify-between items-center">
           <Link to="/">
             {isScrolled ? (
-              <img className="w-[60px] h-auto cursor-pointer" src={bidlogo} alt="" />
+              <img
+                className="w-[60px] h-auto cursor-pointer"
+                src={bidlogo}
+                alt=""
+              />
             ) : (
               <img
                 className="w-[60px] h-auto cursor-pointer"
@@ -124,7 +128,7 @@ const Navbar = () => {
                     About
                   </Link>
                 </li>
-
+                {/* 
                 <li>
                   <Link
                     to="/services"
@@ -133,7 +137,7 @@ const Navbar = () => {
                   >
                     Services
                   </Link>
-                </li>
+                </li> */}
 
                 <li onClick={() => closeDropdowns()}>
                   <Link
@@ -145,7 +149,6 @@ const Navbar = () => {
                   </Link>
                 </li>
 
-                
                 {/* <li>
                   <button
                     className="text-black hover:text-blue-500 focus:outline-none"
@@ -260,7 +263,7 @@ const Navbar = () => {
               </Link>
             </li>
 
-            <li>
+            {/* <li>
               <Link
                 to="/services"
                 className="hover:text-blue-500"
@@ -268,7 +271,7 @@ const Navbar = () => {
               >
                 Services
               </Link>
-            </li>
+            </li> */}
 
             <li>
               <Link
@@ -279,7 +282,7 @@ const Navbar = () => {
                 Contact
               </Link>
             </li>
-            
+
             {/* <li className="relative" onMouseEnter={() => setIsBusinessOpen(true)} onMouseLeave={() =>  setIsTrainingOpen(false)} >
               <Link
 
