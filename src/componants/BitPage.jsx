@@ -87,7 +87,7 @@ function BitPage() {
               </div>
               <div className="md:col-span-2 my-5">
                 <button className="bg-blue-800 px-4 py-1 text-white text-xl font-semibold rounded-[4px]">
-                  Bit Now
+                  Bid Now
                 </button>
               </div>
             </div>
