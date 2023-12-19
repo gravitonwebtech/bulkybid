@@ -9,7 +9,7 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGoogle, faFacebook } from "@fortawesome/free-brands-svg-icons";
-import { faCircleCheck } from '@fortawesome/free-regular-svg-icons';
+import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 import Image2 from "../assets/images/Homepageimages/home-image1.png";
 import Google from "../assets/images/Homepageimages/goole image.png";
 import Facebook from "../assets/images/Homepageimages/facebook_image.png";
@@ -208,7 +208,10 @@ const Home = () => {
                       />
                     </div>
                     <div className="flex justify-center">
-                    <FontAwesomeIcon icon={faCircleCheck} className="text-green-500 h-10 w-10" />
+                      <FontAwesomeIcon
+                        icon={faCircleCheck}
+                        className="text-green-500 h-10 w-10"
+                      />
                     </div>
                     <p className="mt-4 text-black text-xl font-semibold">
                       Form submitted successfully!
