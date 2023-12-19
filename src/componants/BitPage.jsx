@@ -31,7 +31,7 @@ function BitPage() {
             className="text-white font-bold text-2xl md:text-3xl lg:text-5xl"
             style={{ fontFamily: "Poppins" }}
           >
-            BitPage
+            BidPage
           </h1>
         </div>
       </div>
