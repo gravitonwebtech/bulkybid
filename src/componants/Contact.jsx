@@ -82,131 +82,121 @@ const Contact = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-5 md:gap-10 lg:gap-20 mx-5 sm:mx-10 md:mx-20 lg:mx-24 xl:mx-28 mt-10 mb-10 md:mb-16 md:mt-16">
-        <div className="md:col-span-7">
-          <h2
-            className="font-bold text-2xl md:text-4xl"
-            style={{ fontFamily: "Poppins" }}
-          >
-            Do you have any question?
-          </h2>
-          <form onSubmit={handleSubmit}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
-              <div className="mt-2">
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Enter Your Name"
-                  className="bg-transparent border-2 p-2 rounded-[4px] w-full"
-                />
-                {errors.name && <p className="text-red-500">{errors.name}</p>}
-              </div>
+      {/* Contact */}
 
-              <div className="mt-2">
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="Enter Your Email"
-                  className="bg-transparent border-2 p-2 rounded-[4px] w-full"
-                />
-                {errors.email && <p className="text-red-500">{errors.email}</p>}
-              </div>
+      <div className="overflow-x-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-12 lg:grid-cols-12 gap-5 md:gap-10 mx-5 sm:mx-10 md:mx-20 lg:mx-24 xl:mx-28 mb-10 md:mt-20 md:mb-20">
 
-              <div className="">
-                <input
-                  type="text"
-                  id="pnum"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  placeholder="Phone Number"
-                  className="bg-transparent border-2 p-2 rounded-[4px] w-full"
-                />
-                {errors.phone && <p className="text-red-500">{errors.phone}</p>}
+          <div className="md:col-span-6 lg:col-span-6">
+            <h1 className="text-2xl md:text-4xl font-bold" style={{ fontFamily: "Poppins" }}>
+              Let's Connect
+            </h1>
+            <form onSubmit={handleSubmit}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-8 mt-8">
+                <p>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Enter Your Name"
+                    required
+                    className="py-2 w-full font-semibold text-gray-500 border-2 border-[#f0bb3a] px-5"
+                  />
+                </p>
+                <p>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="Enter Your Email"
+                    required
+                    className="py-2 w-full font-semibold text-gray-500 border-2 border-[#f0bb3a] px-5"
+                  />
+                </p>
+                <p>
+                  <input
+                    type="text"
+                    id="pnum"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="Phone Number"
+                    required
+                    className="py-2 w-full font-semibold text-gray-500 border-2 border-[#f0bb3a] px-5"
+                  />
+                </p>
+                <p>
+                  <input
+                    type="text"
+                    id="city"
+                    name="city"
+                    value={formData.city}
+                    onChange={handleChange}
+                    placeholder="City"
+                    required
+                    className="py-2 w-full font-semibold text-gray-500 border-2 border-[#f0bb3a]  px-5"
+                  />
+                </p>
               </div>
-
-              <div className="">
-                <input
-                  type="text"
-                  id="city"
-                  name="city"
-                  value={formData.city}
-                  onChange={handleChange}
-                  placeholder="City"
-                  className="bg-transparent border-2 p-2 rounded-[4px] w-full"
-                />
-                {errors.city && <p className="text-red-500">{errors.city}</p>}
-              </div>
-            </div>
-            <div className="mt-5">
               <textarea
+                className=" py-2 w-full font-semibold border-2 border-[#f0bb3a] mt-5 px-5 tex-black"
+                placeholder="Enter message here"
                 value={formData.message}
                 onChange={handleChange}
-                className="bg-transparent border-2 p-2 rounded-[4px] w-full"
-                rows="4"
                 name="message"
-                placeholder="Your Message"
+                rows="4"
+                required
               ></textarea>
-              {errors.message && (
-                <p className="text-red-500">{errors.message}</p>
-              )}
-            </div>
 
-            <div className="mt-5">
+              <div className="flex justify-center mt-5">
               <button
                 type="submit"
                 className="bg-[#f0bb3a] font-semibold text-white px-4 py-2 rounded-[4px]"
               >
                 Send Message
               </button>
+              </div>
+            </form>
+          </div>
+
+          <div className="md:col-span-1 lg:col-span-1"></div>
+
+          <div className="md:col-span-5 lg:col-span-5 bg-yellow-200 p-10 md:px-14 md:py-20 shadow-lg">
+            <div>
+              <div className="flex">
+               <FontAwesomeIcon  icon={faPhone} className="text-[#f0bb3a] text-lg font-semibold" />
+                <h1 className=" font-bold pl-3">PHONE</h1>
+              </div>
+
+              <div className="border-t border-[#ADADAD] w-100 h-1 mt-2" />
+              <p className="mt-3">+91-1234567890</p>
             </div>
-          </form>
-        </div>
-        <div className="md:col-span-5">
-          <div className="bg-white shadow border border-gray-200 p-5 md:p-10 h-full rounded-[4px]">
-            <h1
-              className="text-xl md:text-2xl font-bold text-[#031B4E]"
-              style={{ fontFamily: "Poppins" }}
-            >
-              Contact Detail
-            </h1>
-            <ul className="mt-5">
-              <li>
-                <Link href="#" className="text-lg">
-                  <FontAwesomeIcon
-                    icon={faEnvelope}
-                    className=" pr-4 text-[#f0bb3a]"
-                  />
-                  info@bulkybid.com
-                </Link>
-              </li>
 
-              <li className=" mt-2">
-                <Link href="#" className="text-lg">
-                  <FontAwesomeIcon
-                    icon={faPhone}
-                    className=" pr-4 text-[#f0bb3a]"
-                  />
-                  +91-1234567890
-                </Link>
-              </li>
+            <div className="mt-5">
+              <div className="flex">
+                 <FontAwesomeIcon  icon={faEnvelope} className="text-[#f0bb3a] text-lg font-semibold" />
 
-              <li className="mt-2">
-                <Link href="#" className="text-lg">
-                  <FontAwesomeIcon
-                    icon={faLocationDot}
-                    className=" pr-4 text-[#f0bb3a]"
-                  />
-                  abc
-                </Link>
-              </li>
-            </ul>
+                <h1 className="font-bold pl-3">E-MAIL</h1>
+              </div>
+
+              <div className="border-t border-[#ADADAD] w-100 h-1 mt-2" />
+              <p className="mt-3">info@bulkybid.com</p>
+            </div>
+
+            <div className="mt-5">
+              <div className="flex">
+               <FontAwesomeIcon  icon={faLocationDot} className="text-[#f0bb3a] text-lg font-semibold " />
+
+                <h1 className="font-bold pl-3">ADDRESS</h1>
+              </div>
+
+              <div className="border-t border-[#ADADAD] w-100 h-1 mt-2" />
+              <p className="mt-3">Abc</p>
+            </div>
           </div>
         </div>
       </div>

@@ -190,7 +190,7 @@ const Home = () => {
               </form>
 
               {/* Success Modal */}
-              {showSuccessModal && (
+            {showSuccessModal && (
                 <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center">
                   <div
                     className="absolute w-full h-full bg-gray-900 opacity-50"

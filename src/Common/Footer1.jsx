@@ -78,7 +78,7 @@ const Footer1 = () => {
               </p>
 
               <p className="mt-2">
-                <Link to="/services">Services</Link>
+                <Link to="/bitpage">Services</Link>
               </p>
             </div>
           </div>
