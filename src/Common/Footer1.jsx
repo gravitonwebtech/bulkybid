@@ -17,8 +17,8 @@ import {
 const Footer1 = () => {
   return (
     <>
-      <div className="footer-part p-12 bg-black">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 mx-0 md:mx-12 lg:mx-14 ">
+      <div className="footer-part p-12 bg-black mt-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 mx-0 md:mx-12 lg:mx-14">
           <div>
             <h4 className="text-[#f0bb3a] text-3xl font-bold">BULKYBID</h4>
 
@@ -90,16 +90,16 @@ const Footer1 = () => {
 
             <ul class="list-inline footer-contact mt-2 md:mt-4">
               <li className="mb-3">
-                <a href="tel:+91-9415174046">
+                <a href="tel:+91-9920502313">
                   <FontAwesomeIcon icon={faPhone} className="footer-icon" />
-                  +91-1234567890
+                  +91-9920502313
                 </a>
               </li>
 
               <li className="mb-3">
-                <a href="mailto:info@gravitonweb.com">
+                <a href="mailto:support@bulkybid.com">
                   <FontAwesomeIcon icon={faEnvelope} className="footer-icon" />
-                  info@bulkybid.com
+                  support@bulkybid.com
                 </a>
               </li>
 
@@ -109,7 +109,9 @@ const Footer1 = () => {
                     icon={faLocationDot}
                     className="footer-icon"
                   />
-                  ABC
+                  Second Floor, 101, 2nd Block, 3rd stage, Near BDA Complex, P&T
+                  Colony, R T Nagar, Bengaluru, Bengaluru Urban, Karnataka,
+                  560032
                 </Link>
               </li>
             </ul>

@@ -40,8 +40,8 @@ const Navbar = () => {
       <nav
         className={`fixed top-0 left-0 right-0 z-50 ${
           isScrolled
-            ? "bg-white text-black shadow-b-lg px-5 py-2 sm:px-10 sm:py-2 md:px-20 md:py-2 lg:px-24 xl:px-28"
-            : "bg-transparent text-white px-5 py-2  sm:px-10 sm:py-2 md:px-20 md:py-2 lg:px-24 xl:px-28"
+            ? "bg-white border-b text-black shadow-b-lg px-5 py-2 sm:px-10 sm:py-2 md:px-20 md:py-2 lg:px-28 xl:px-40"
+            : "bg-white border-b text-black shadow-b-lg px-5 py-2 sm:px-10 sm:py-2 md:px-20 md:py-2 lg:px-28 xl:px-40"
         }`}
       >
         <Scrollup />
@@ -131,27 +131,17 @@ const Navbar = () => {
                   </Link>
                 </li>
 
-                <li>
+                {/* <li>
                   <Link
-                    to="/bitpage"
+                    to="/services"
                     className="hover:text-blue-500"
                     onClick={() => setIsDrawerOpen(false)}
                   >
                     Services
                   </Link>
-                </li>
+                </li> */}
 
-                <li onClick={() => closeDropdowns()}>
-                  <Link
-                    to="/contact"
-                    className="hover:text-blue-500"
-                    onClick={() => setIsDrawerOpen(false)}
-                  >
-                    Contact
-                  </Link>
-                </li>
-
-                {/* <li>
+                <li>
                   <button
                     className="text-black hover:text-blue-500 focus:outline-none"
                     onClick={() => {
@@ -160,10 +150,11 @@ const Navbar = () => {
                     }}
                   >
                     <Link
+                      to="/services"
                       className="hover:text-blue-500"
                       onClick={() => setIsDrawerOpen(true)}
                     >
-                      Grow Your Business
+                      Services
                     </Link>
 
                     {isBusinessOpen ? (
@@ -201,19 +192,17 @@ const Navbar = () => {
 
                   {isBusinessOpen && (
                     <div className="ml-2">
-
-
                       <ul className="mt-2 space-y-1">
                         <p>
                           <Link
-                            to="/digitalGravity"
+                            to="/listingService"
                             className="hover:text-blue-500"
                             onClick={() => setIsDrawerOpen(false)}
                           >
-                            Digital Gravity
+                            Service Listing
                           </Link>
                         </p>
-                        <p>
+                        {/* <p>
                           <Link
                             to="/digitalwebinar"
                             className="hover:text-blue-500"
@@ -224,20 +213,35 @@ const Navbar = () => {
                         </p>
 
                         <p>
-                      
-
-                          <a
-                            href=""
-                            onClick={() => closeDropdowns()}
-                          >
+                          <a href="" onClick={() => closeDropdowns()}>
                             {" "}
                             Grow Your Business
                           </a>
-                        </p>
+                        </p> */}
                       </ul>
                     </div>
                   )}
-                </li> */}
+                </li>
+
+                <li>
+                  <Link
+                    to="/salecalendar"
+                    className="hover:text-blue-500"
+                    onClick={() => closeDropdowns()}
+                  >
+                    Sale Calendar
+                  </Link>
+                </li>
+
+                <li onClick={() => closeDropdowns()}>
+                  <Link
+                    to="/contact"
+                    className="hover:text-blue-500"
+                    onClick={() => setIsDrawerOpen(false)}
+                  >
+                    Contact
+                  </Link>
+                </li>
               </ul>
             </div>
           )}
@@ -265,33 +269,27 @@ const Navbar = () => {
               </Link>
             </li>
 
-            <li>
+            {/* <li>
               <Link
-                to="/bitpage"
+                to="/services"
                 className="hover:text-blue-500"
                 onClick={() => closeDropdowns()}
               >
                 Services
               </Link>
-            </li>
+            </li> */}
 
-            <li>
+            <li
+              className="relative"
+              onMouseEnter={() => setIsBusinessOpen(true)}
+              onMouseLeave={() => setIsTrainingOpen(false)}
+            >
               <Link
-                to="/contact"
+                to="/services"
                 className="hover:text-blue-500"
                 onClick={() => closeDropdowns()}
               >
-                Contact
-              </Link>
-            </li>
-
-            {/* <li className="relative" onMouseEnter={() => setIsBusinessOpen(true)} onMouseLeave={() =>  setIsTrainingOpen(false)} >
-              <Link
-
-                className="hover:text-blue-500"
-                onClick={() => closeDropdowns()}
-              >
-                Grow Your Business
+                Services
               </Link>
 
               <button
@@ -303,7 +301,7 @@ const Navbar = () => {
               >
                 <svg
                   className={` h-3 ml-2 transition-transform transform ${
-                    isBusinessOpen ?"rotate-180": "rotate-0" 
+                    isBusinessOpen ? "rotate-180" : "rotate-0"
                   }`}
                   fill="none"
                   stroke="currentColor"
@@ -320,17 +318,21 @@ const Navbar = () => {
               </button>
 
               {isBusinessOpen && (
-                <ul    onMouseEnter={() => setIsBusinessOpen(true)} onMouseLeave={() => setIsBusinessOpen(false)} className="absolute top-10 right-0 bg-white text-black   border shadow-lg rounded-bl-lg rounded-br-lg  text-center text-sm">
-                  <p className="border-b-2 p-3">
+                <ul
+                  onMouseEnter={() => setIsBusinessOpen(true)}
+                  onMouseLeave={() => setIsBusinessOpen(false)}
+                  className="absolute top-10 right-0 bg-white text-black border shadow-lg rounded-bl-lg rounded-br-lg text-center text-sm"
+                >
+                  <p className="px-5 py-3">
                     <Link
-                      to="/digitalGravity"
-                      className=" text-blue-500"
+                      to="/listingService"
+                      className=" text-orange-500"
                       onClick={() => closeDropdowns()}
                     >
-                      Digital Gravity
+                      Service Listing
                     </Link>
                   </p>
-                  <p className="border-b-2 p-3">
+                  {/* <p className="border-b-2 p-3">
                     <Link
                       to="/digitalwebinar"
                       className="text-black hover:text-blue-500"
@@ -350,10 +352,30 @@ const Navbar = () => {
                       {" "}
                       Grow Your Business
                     </a>
-                  </p>
+                  </p> */}
                 </ul>
               )}
-            </li> */}
+            </li>
+
+            <li>
+              <Link
+                to="/salecalendar"
+                className="hover:text-blue-500"
+                onClick={() => closeDropdowns()}
+              >
+                Sale Calendar
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                to="/contact"
+                className="hover:text-blue-500"
+                onClick={() => closeDropdowns()}
+              >
+                Contact
+              </Link>
+            </li>
           </ul>
         </div>
       </nav>
