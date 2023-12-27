@@ -184,7 +184,7 @@ export default function Home() {
         <img src={banner} className="w-full h-auto" alt="" />
       </div> */}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-10 mx-5 md:mx-20 lg:mx-28 xl:mx-40 mt-5 md:mt-28">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-10 mx-5 md:mx-20 lg:mx-28 xl:mx-40 mt-28">
         <div className="rounded shadow bg-white p-3">
           <div className="bg-[#fbb42b] text-center text-white p-3 rounded mb-2">
             <h3
