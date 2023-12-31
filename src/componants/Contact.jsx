@@ -54,7 +54,29 @@ const Contact = () => {
     }
 
     // If no errors, proceed with form submission
-    console.log("Form Data:", formData);
+    // console.log("Form Data:", formData);
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      name: formData.name,
+      phone: formData.phone,
+      email: formData.email,
+      city: formData.city,
+      message: formData.message,
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch("http://legal257.pythonanywhere.com/api/create/", requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
 
     // Reset form data after submission
     setFormData({
@@ -91,7 +113,7 @@ const Contact = () => {
             >
               Let's Connect
             </h1>
-            <form onSubmit={handleSubmit}>
+            <form>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-8 mt-8">
                 <p>
                   <input
@@ -105,6 +127,7 @@ const Contact = () => {
                     className="py-2 w-full font-semibold text-gray-500 border-2 border-[#f0bb3a] px-5"
                   />
                 </p>
+
                 <p>
                   <input
                     type="email"
@@ -155,6 +178,7 @@ const Contact = () => {
               <div className="flex justify-center mt-5">
                 <button
                   type="submit"
+                  onClick={handleSubmit}
                   className="bg-[#f0bb3a] font-semibold text-white px-4 py-2 rounded-[4px]"
                 >
                   Send Message

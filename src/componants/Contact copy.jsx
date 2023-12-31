@@ -55,7 +55,30 @@ const Contact = () => {
     }
 
     // If no errors, proceed with form submission
-    console.log("Form Data:", formData);
+    // console.log("Form Data:", formData);
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      name: formData.name,
+      phone: formData.phone,
+      email: formData.email,
+      city: formData.city,
+      message: formData.message,
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch("http://legal257.pythonanywhere.com/api/create/", requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
 
     // Reset form data after submission
     setFormData({
@@ -86,9 +109,11 @@ const Contact = () => {
 
       <div className="overflow-x-hidden">
         <div className="grid grid-cols-1 md:grid-cols-12 lg:grid-cols-12 gap-5 md:gap-10 mx-5 sm:mx-10 md:mx-20 lg:mx-24 xl:mx-28 mb-10 md:mt-20 md:mb-20">
-
           <div className="md:col-span-6 lg:col-span-6">
-            <h1 className="text-2xl md:text-4xl font-bold" style={{ fontFamily: "Poppins" }}>
+            <h1
+              className="text-2xl md:text-4xl font-bold"
+              style={{ fontFamily: "Poppins" }}
+            >
               Let's Connect
             </h1>
             <form onSubmit={handleSubmit}>
@@ -153,12 +178,12 @@ const Contact = () => {
               ></textarea>
 
               <div className="flex justify-center mt-5">
-              <button
-                type="submit"
-                className="bg-[#f0bb3a] font-semibold text-white px-4 py-2 rounded-[4px]"
-              >
-                Send Message
-              </button>
+                <button
+                  type="submit"
+                  className="bg-[#f0bb3a] font-semibold text-white px-4 py-2 rounded-[4px]"
+                >
+                  Send Message
+                </button>
               </div>
             </form>
           </div>
@@ -168,7 +193,10 @@ const Contact = () => {
           <div className="md:col-span-5 lg:col-span-5 bg-yellow-200 p-10 md:px-14 md:py-20 shadow-lg">
             <div>
               <div className="flex">
-               <FontAwesomeIcon  icon={faPhone} className="text-[#f0bb3a] text-lg font-semibold" />
+                <FontAwesomeIcon
+                  icon={faPhone}
+                  className="text-[#f0bb3a] text-lg font-semibold"
+                />
                 <h1 className=" font-bold pl-3">PHONE</h1>
               </div>
 
@@ -178,7 +206,10 @@ const Contact = () => {
 
             <div className="mt-5">
               <div className="flex">
-                 <FontAwesomeIcon  icon={faEnvelope} className="text-[#f0bb3a] text-lg font-semibold" />
+                <FontAwesomeIcon
+                  icon={faEnvelope}
+                  className="text-[#f0bb3a] text-lg font-semibold"
+                />
 
                 <h1 className="font-bold pl-3">E-MAIL</h1>
               </div>
@@ -189,7 +220,10 @@ const Contact = () => {
 
             <div className="mt-5">
               <div className="flex">
-               <FontAwesomeIcon  icon={faLocationDot} className="text-[#f0bb3a] text-lg font-semibold " />
+                <FontAwesomeIcon
+                  icon={faLocationDot}
+                  className="text-[#f0bb3a] text-lg font-semibold "
+                />
 
                 <h1 className="font-bold pl-3">ADDRESS</h1>
               </div>

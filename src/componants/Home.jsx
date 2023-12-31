@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import banner from "../assets/images/Homepageimages/banner-travels-image.png";
 import UserLogin from "../assets/images/Homepageimages/user-icon.png";
 import "./Home.css";
@@ -102,29 +103,16 @@ export default function Home() {
     },
   ];
 
+  const [checkOtp, setCheckOtp] = useState(false);
+  const [otpValue, setOtpValue] = useState("");
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     phone: "",
-    otp: "",
   });
-
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [errors, setErrors] = useState({});
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-
-    // Clear validation errors when user starts typing
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      [name]: undefined,
-    }));
-  };
-
-  const handleSubmit = (e) => {
+  const sendOtp = (e) => {
     e.preventDefault();
 
     // Perform validation before submitting
@@ -137,28 +125,75 @@ export default function Home() {
       validationErrors.phone = "Invalid phone number (10 digits)";
     }
 
-    // OTP validation
-    if (!formData.otp) {
-      validationErrors.otp = "OTP is required";
-    } else if (!/^\d{6}$/.test(formData.otp)) {
-      validationErrors.otp = "Invalid OTP (6 digits)";
-    }
+    if (Object.keys(validationErrors).length === 0) {
+      // If there are no validation errors, proceed with sending OTP
+      var formdata = new FormData();
+      formdata.append("number", formData.phone);
 
-    // If there are errors, prevent form submission
-    if (Object.keys(validationErrors).length > 0) {
+      var requestOptions = {
+        method: "POST",
+        body: formdata,
+        redirect: "follow",
+      };
+
+      fetch("https://legal257.pythonanywhere.com/api/sendOTP/", requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result);
+
+          // Set checkOtp to true to render OTP verification section
+          setCheckOtp(true);
+        })
+        .catch((error) => console.log("error", error));
+    } else {
+      // Update state with validation errors
       setErrors(validationErrors);
-      return;
     }
-
-    // No validation errors, proceed with form submission
-    setShowSuccessModal(true);
-    console.log("Form Data:", formData);
-    setFormData({ phone: "", otp: "" });
   };
 
-  const closeModal = () => {
-    // Close the success modal
-    setShowSuccessModal(false);
+  const verifyOtp = (e) => {
+    e.preventDefault();
+    var formdata = new FormData();
+    formdata.append("number", formData.phone);
+    formdata.append("otp", otpValue);
+
+    var requestOptions = {
+      method: "PUT",
+      body: formdata,
+      redirect: "follow",
+    };
+
+    fetch("https://legal257.pythonanywhere.com/api/checkOTP/", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.status) {
+          setTimeout(() => {
+            navigate("/bitpage");
+          }, 3000);
+        } else {
+          alert("otp is wrong entered");
+        }
+      })
+      .catch((error) => console.log("error", error));
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((data) => ({
+      ...data,
+      [name]: value,
+    }));
+
+    // const { name, value } = e.target;
+    // setFormData((prevData) => ({
+    //   ...prevData,
+    //   [name]: value,
+    // }));
+    // Clear validation errors when the user starts typing
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: undefined,
+    }));
   };
 
   const settings = {
@@ -265,118 +300,107 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="rounded shadow bg-white p-3">
-          <div className="bg-gray-200 text-center text-black p-3 rounded mb-2">
-            <h3
-              className="text-xl font-semibold"
-              style={{ fontFamily: "Poppins" }}
-            >
-              LOGIN FORM
-            </h3>
-          </div>
-
-          <div className="flex justify-center">
-            <img src={UserLogin}></img>
-          </div>
-
-          <form onSubmit={handleSubmit}>
-            <div className="mt-4 mb-2">
-              <input
-                type="text"
-                id="pnum"
-                name="phone"
-                placeholder="Phone Number"
-                value={formData.phone}
-                onChange={handleChange}
-                className={`bg-transparent border-2 p-2 rounded-[4px] w-full text-black ${
-                  errors.phone ? "border-red-500" : ""
-                }`}
-              />
-              {errors.phone && (
-                <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
-              )}
-            </div>
-
-            <div className="mt-2 mb-2">
-              <input
-                type="text"
-                id="otp"
-                name="otp"
-                placeholder="Enter OTP"
-                value={formData.otp}
-                onChange={handleChange}
-                className={`bg-transparent border-2 p-2 rounded-[4px] w-full text-black ${
-                  errors.otp ? "border-red-500" : ""
-                }`}
-              />
-              {errors.otp && (
-                <p className="text-red-500 text-sm mt-1">{errors.otp}</p>
-              )}
-            </div>
-
-            <div className="mt-3">
-              <button
-                type="submit"
-                className="bg-[#2a89d8] font-semibold w-full text-white px-4 py-2 rounded-[4px]"
-              >
-                Submit
-              </button>
-            </div>
-          </form>
-
-          {/* Success Modal */}
-          {showSuccessModal && (
-            <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center">
-              <div
-                className="absolute w-full h-full bg-gray-900 opacity-50"
-                onClick={closeModal}
-              ></div>
-              <div className="bg-white p-8 rounded-lg z-10 relative">
-                {/* Cross icon to close the modal */}
-                <div
-                  className="absolute top-2 right-2 cursor-pointer"
-                  onClick={closeModal}
-                >
-                  <FontAwesomeIcon icon={faTimes} className="text-gray-500" />
-                </div>
-                <div className="flex justify-center">
-                  <FontAwesomeIcon
-                    icon={faCircleCheck}
-                    className="text-green-500 h-10 w-10"
+        {checkOtp ? (
+          // OTP verification section
+          <div className="mt-16 flex items-center justify-center">
+            <div className="max-w-md w-full p-6 bg-white rounded-md shadow-md">
+              <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+                OTP Verification
+              </h2>
+              <form onSubmit={verifyOtp}>
+                <div className="mb-4">
+                  <input
+                    type="text"
+                    id="number"
+                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+                    placeholder="Enter your OTP"
+                    value={otpValue}
+                    onChange={(e) => setOtpValue(e.target.value)}
+                    required
                   />
                 </div>
-                <p className="mt-4 text-black text-xl font-semibold">
-                  Form submitted successfully!
-                </p>
-              </div>
-            </div>
-          )}
-
-          <h1 className="text-black text-lg mt-2 text-center font-semibold">
-            OR
-          </h1>
-          <div className="grid grid-cols-2 gap-5 mt-2">
-            <div className="border-2 p-1 rounded">
-              <span>
-                <FontAwesomeIcon icon={faGoogle} className="text-[#DB4437]" />
-              </span>
-              <span className="pl-3" style={{ fontFamily: "Poppins" }}>
-                Google
-              </span>
-            </div>
-
-            <div className=" border-2 p-1 rounded">
-              <span>
-                <FontAwesomeIcon icon={faFacebook} className="text-[#1877F2]" />
-              </span>
-              <span className="pl-3" style={{ fontFamily: "Poppins" }}>
-                Facebook
-              </span>
+                <div className="mb-4">
+                  <button
+                    className="bg-[#2774AE] mt-8 w-full py-2 text-white text-lg font-semibold rounded-lg"
+                    type="submit"
+                  >
+                    Verify OTP
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
-        </div>
-      </div>
+        ) : (
+          <div className="rounded shadow bg-white p-3">
+            <div className="bg-gray-200 text-center text-black p-3 rounded mb-2">
+              <h3
+                className="text-xl font-semibold"
+                style={{ fontFamily: "Poppins" }}
+              >
+                LOGIN FORM
+              </h3>
+            </div>
 
+            <div className="flex justify-center">
+              <img src={UserLogin}></img>
+            </div>
+
+            <form onSubmit={sendOtp}>
+              <div className="mt-4 mb-2">
+                <input
+                  type="text"
+                  id="pnum"
+                  name="phone"
+                  placeholder="Phone Number"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className={`bg-transparent border-2 p-2 rounded-[4px] w-full text-black ${
+                    errors.phone ? "border-red-500" : ""
+                  }`}
+                />
+                {errors.phone && (
+                  <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
+                )}
+              </div>
+
+              <div className="mt-3">
+                <button
+                  type="submit"
+                  className="bg-[#2a89d8] font-semibold w-full text-white px-4 py-2 rounded-[4px]"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+
+            <h1 className="text-black text-lg mt-2 text-center font-semibold">
+              OR
+            </h1>
+            <div className="grid grid-cols-2 gap-5 mt-2">
+              <div className="border-2 p-1 rounded">
+                <span>
+                  <FontAwesomeIcon icon={faGoogle} className="text-[#DB4437]" />
+                </span>
+                <span className="pl-3" style={{ fontFamily: "Poppins" }}>
+                  Google
+                </span>
+              </div>
+
+              <div className=" border-2 p-1 rounded">
+                <span>
+                  <FontAwesomeIcon
+                    icon={faFacebook}
+                    className="text-[#1877F2]"
+                  />
+                </span>
+                <span className="pl-3" style={{ fontFamily: "Poppins" }}>
+                  Facebook
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
       <div className="mx-5 md:mx-20 lg:mx-28 xl:mx-40 mt-14">
         <Slider {...settings}>
           {items.map((item) => (
@@ -544,9 +568,9 @@ export default function Home() {
               transaction was smooth. The auction process is well-organized, and
               the responsive customer service adds an extra layer of confidence.
             </p>
-           <div className="flex justify-end">
-           <h1 className="font-bold">~Royal, Tractor Dealer</h1>
-           </div>
+            <div className="flex justify-end">
+              <h1 className="font-bold">~Royal, Tractor Dealer</h1>
+            </div>
           </div>
         </div>
 
@@ -560,8 +584,8 @@ export default function Home() {
               automotive market.
             </p>
             <div className="flex justify-end">
-           <h1 className="font-bold">~Mohan Car Mall</h1>
-           </div>
+              <h1 className="font-bold">~Mohan Car Mall</h1>
+            </div>
           </div>
         </div>
       </div>
