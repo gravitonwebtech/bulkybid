@@ -10,6 +10,7 @@ import Navbar from "./Common/Navbar";
 import ListingService from "./componants/ListingService";
 import Auction from "./componants/Auction";
 import SaleCalendar from "./componants/SaleCalendar";
+import ExcelData from "./componants/ExcelData";
 
 
 
@@ -27,6 +28,7 @@ const App = () => {
           <Route path="/listingService" element={<ListingService />} />
           <Route path="/auction" element={<Auction />} />
           <Route path="/salecalendar" element={<SaleCalendar />} />
+          <Route path="/excel" element={<ExcelData/>}/>
         </Routes>
 
         <Footer1 />
