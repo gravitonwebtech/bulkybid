@@ -11,6 +11,10 @@ import ListingService from "./componants/ListingService";
 import Auction from "./componants/Auction";
 import SaleCalendar from "./componants/SaleCalendar";
 import ExcelData from "./componants/ExcelData";
+import CarModelList from "./componants/admin/CarModelList";
+
+
+
 
 
 
@@ -19,6 +23,8 @@ const App = () => {
     <>
       <div>  
         <Navbar />
+     
+        
         <Routes>
           <Route index path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -29,6 +35,11 @@ const App = () => {
           <Route path="/auction" element={<Auction />} />
           <Route path="/salecalendar" element={<SaleCalendar />} />
           <Route path="/excel" element={<ExcelData/>}/>
+          <Route path="/car" element={<CarModelList/>}/>
+
+     
+
+          
         </Routes>
 
         <Footer1 />
