@@ -168,7 +168,7 @@ export default function Home() {
       .then((result) => {
         if (result.status) {
           setTimeout(() => {
-            navigate("/bitpage");
+            navigate("/auctionlist");
           }, 3000);
         } else {
           alert("otp is wrong entered");

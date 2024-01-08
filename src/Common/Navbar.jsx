@@ -195,7 +195,7 @@ const Navbar = () => {
                       <ul className="mt-2 space-y-1">
                         <p>
                           <Link
-                            to="/listingService"
+                            to="/auctionlist"
                             className="hover:text-blue-500"
                             onClick={() => setIsDrawerOpen(false)}
                           >
@@ -325,7 +325,7 @@ const Navbar = () => {
                 >
                   <p className="px-5 py-3">
                     <Link
-                      to="/listingService"
+                      to="/auctionlist"
                       className=" text-orange-500"
                       onClick={() => closeDropdowns()}
                     >
