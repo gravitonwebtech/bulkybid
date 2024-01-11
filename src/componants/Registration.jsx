@@ -107,6 +107,11 @@ export default function Registration({ onClose }) {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 2000,
         });
+
+        // Close the form after 10 seconds
+        setTimeout(() => {
+          onClose();
+        }, 3000);
         console.log(result);
       })
       .catch((error) => console.log("error", error));
@@ -221,7 +226,6 @@ export default function Registration({ onClose }) {
                   }`}
                 >
                   <option value="">You Are</option>
-                  <option value="you are">You Are</option>
                   <option value="end User">End User</option>
                   <option value="vehicle dealer">Vehicle Dealer</option>
                 </select>
