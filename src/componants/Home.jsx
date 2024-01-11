@@ -28,6 +28,7 @@ import Icon3 from "../assets/images/Homepageimages/icon3.svg";
 import Icon4 from "../assets/images/Homepageimages/icon4.svg";
 import Icon5 from "../assets/images/Homepageimages/icon5.svg";
 import Icon6 from "../assets/images/Homepageimages/icon6.svg";
+import Registration from "./Registration";
 
 export default function Home() {
   const events = [
@@ -213,6 +214,17 @@ export default function Home() {
     settings.slidesToShow = 1;
   }
 
+
+  const [showRegistrationForm, setShowRegistrationForm] = useState(false);
+
+  const openRegistrationForm = () => {
+    setShowRegistrationForm(true);
+  };
+
+  const closeRegistrationForm = () => {
+    setShowRegistrationForm(false);
+  };
+  
   return (
     <>
       {/* <div className="mt-20">
@@ -372,6 +384,20 @@ export default function Home() {
                 </button>
               </div>
             </form>
+
+            {showRegistrationForm && (
+              <Registration onClose={closeRegistrationForm} />
+            )}
+
+            {/* ... (existing code) */}
+            <div className="mt-3">
+              <button
+                onClick={openRegistrationForm}
+                className="bg-[#2a89d8] font-semibold w-full text-white px-4 py-2 rounded-[4px]"
+              >
+                Register
+              </button>
+            </div>
 
             <h1 className="text-black text-lg mt-2 text-center font-semibold">
               OR

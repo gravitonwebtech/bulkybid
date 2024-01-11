@@ -13,18 +13,11 @@ import SaleCalendar from "./componants/SaleCalendar";
 import ExcelData from "./componants/ExcelData";
 import CarModelList from "./componants/admin/CarModelList";
 
-
-
-
-
-
 const App = () => {
   return (
     <>
-      <div>  
+      <div>
         <Navbar />
-     
-        
         <Routes>
           <Route index path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -34,13 +27,9 @@ const App = () => {
           <Route path="/auctionlist" element={<ListingService />} />
           {/* <Route path="/auction" element={<Auction />} /> */}
           <Route path="/salecalendar" element={<SaleCalendar />} />
-          <Route path="/excel" element={<ExcelData/>}/>
-          <Route path="/car" element={<CarModelList/>}/>
-          <Route path="/auction/:userId" element={<Auction/>} />
-
-     
-
-          
+          <Route path="/excel" element={<ExcelData />} />
+          <Route path="/car" element={<CarModelList />} />
+          <Route path="/auction/:userId" element={<Auction />} />
         </Routes>
 
         <Footer1 />
