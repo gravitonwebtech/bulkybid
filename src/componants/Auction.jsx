@@ -4,8 +4,7 @@ import Car from "../assets/images/Homepageimages/car1.png";
 import Bus from "../assets/images/Homepageimages/bus1.jfif";
 
 export default function Auction() {
-
-  const [carkey,setCarkey]=useState("");
+  const [carkey, setCarkey] = useState("");
   // const data = [
   //   {
   //     image: Car,
@@ -45,13 +44,12 @@ export default function Auction() {
   //   const location = useLocation();
   //   const auctionData = location.state.auctionData || {};
   //   const { auctionId } = useParams();
-  const [pop,setPop]=useState(false)
-  const handleAuction =(id)=>{
+  const [pop, setPop] = useState(false);
+  const handleAuction = (id) => {
     setCarkey(id);
-    setPop(true)
-    console.log(id)
-    
-  }
+    setPop(true);
+    console.log(id);
+  };
 
   const [carModels, setCarModels] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -90,89 +88,80 @@ export default function Auction() {
   const { userId } = useParams();
   const filteredData = carModels.filter((item) => item.Auction_type === userId);
 
-
-const [formData, setFormData] = useState({
-  userId: 7,
-  CarId: carkey && carkey,
-  name: '',
-  email: '',
-  amount: "",
-});
-
-
-const handleInputChange = (e) => {
-  const { name, value } = e.target;
-  setFormData((prevData) => ({
-    ...prevData,
-    [name]: value,
-  }));
-};
-
-
-
-
-const handleSubmit = () => {
-  const myHeaders = new Headers();
-  myHeaders.append('Content-Type', 'application/json');
-
-  const raw = JSON.stringify(formData);
-
-  const requestOptions = {
-    method: 'POST',
-    headers: myHeaders,
-    body: raw,
-    redirect: 'follow',
-  };
-
-  fetch('http://127.0.0.1:8000/api/bidding/', requestOptions)
-    .then((response) => response.text())
-    .then((result) => {
-
-      console.log("result: ", JSON.parse(result));
-      // if (result)
-      updateAmount();
-      // You may want to handle the result or close the modal here
-    })
-    .catch((error) => console.log('error', error));
-
-   
-};
-
-
-const [update,setUpdate]=useState("")
-const updateAmount=()=>{
-  var updateHeaders = new Headers();
-  updateHeaders.append("Content-Type", "application/json");
-
-  var updatedData = JSON.stringify({
-    "hightestBiddingPrice": formData.amount,
-    
+  const [formData, setFormData] = useState({
+    userId: 7,
+    CarId: carkey && carkey,
+    name: "",
+    email: "",
+    amount: "",
   });
 
-  var updateOptions = {
-    method: 'PATCH',
-    headers: updateHeaders,
-    body: updatedData,
-    redirect: 'follow'
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
-  var updateUrl = `http://127.0.0.1:8000/api/carmodels/partial_update/${carkey}/`;
+  const handleSubmit = () => {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
 
-  fetch(updateUrl, updateOptions)
-    .then(response => response.text())
-    .then(result => {
-      const data=JSON.parse(result)
-    
-      console.log("updated: ", data.map((item) => item.hightestBiddingPrice));
+    const raw = JSON.stringify(formData);
 
-      // setUpdate(data);
-      
-    })
-    .catch(error => {
-      console.log('error', error);
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch("http://127.0.0.1:8000/api/bidding/", requestOptions)
+      .then((response) => response.text())
+      .then((result) => {
+        console.log("result: ", JSON.parse(result));
+        // if (result)
+        updateAmount();
+        // You may want to handle the result or close the modal here
+      })
+      .catch((error) => console.log("error", error));
+  };
+
+  const [update, setUpdate] = useState("");
+  const updateAmount = () => {
+    var updateHeaders = new Headers();
+    updateHeaders.append("Content-Type", "application/json");
+
+    var updatedData = JSON.stringify({
+      hightestBiddingPrice: formData.amount,
     });
-}
 
+    var updateOptions = {
+      method: "PATCH",
+      headers: updateHeaders,
+      body: updatedData,
+      redirect: "follow",
+    };
+
+    var updateUrl = `http://127.0.0.1:8000/api/carmodels/partial_update/${carkey}/`;
+
+    fetch(updateUrl, updateOptions)
+      .then((response) => response.text())
+      .then((result) => {
+        const data = JSON.parse(result);
+
+        console.log(
+          "updated: ",
+          data.map((item) => item.hightestBiddingPrice)
+        );
+
+        // setUpdate(data);
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+  };
 
   return (
     <>
@@ -241,19 +230,23 @@ const updateAmount=()=>{
                         {item.end_time}
                       </h1>
                     </div>
-                      
+
                     <div className="md:col-span-2">
-                    <button onClick={()=> handleAuction(item.id) } className="border m-2 rounded-md bg-blue-600 text-white hover:bg-red-600 border-red-800">Auction Now</button>
+                      <button
+                        onClick={() => handleAuction(item.id)}
+                        className="border m-2 rounded-md bg-blue-600 text-white hover:bg-red-600 border-red-800"
+                      >
+                        Auction Now
+                      </button>
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
           ))}
         </div>
       </div>
-      
+
       {pop && (
         <div className="fixed bg-black bg-opacity-60 inset-0 z-10 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
           <div className="relative w-auto max-w-3xl mx-auto my-6">
@@ -273,7 +266,10 @@ const updateAmount=()=>{
                 {/* Form */}
                 <form>
                   <div className="mb-4">
-                    <label className="block text-white text-sm font-bold mb-2" htmlFor="name">
+                    <label
+                      className="block text-white text-sm font-bold mb-2"
+                      htmlFor="name"
+                    >
                       Name
                     </label>
                     <input
@@ -287,7 +283,10 @@ const updateAmount=()=>{
                     />
                   </div>
                   <div className="mb-4">
-                    <label className="block text-white text-sm font-bold mb-2" htmlFor="email">
+                    <label
+                      className="block text-white text-sm font-bold mb-2"
+                      htmlFor="email"
+                    >
                       Email
                     </label>
                     <input
@@ -301,7 +300,10 @@ const updateAmount=()=>{
                     />
                   </div>
                   <div className="mb-4">
-                    <label className="block text-white text-sm font-bold mb-2" htmlFor="amount">
+                    <label
+                      className="block text-white text-sm font-bold mb-2"
+                      htmlFor="amount"
+                    >
                       Amount
                     </label>
                     <input
@@ -319,7 +321,6 @@ const updateAmount=()=>{
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                       type="button"
                       onClick={handleSubmit}
-
                     >
                       Submit
                     </button>

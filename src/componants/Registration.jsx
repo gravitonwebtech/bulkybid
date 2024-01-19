@@ -11,6 +11,7 @@ export default function Registration({ onClose }) {
     phone: "",
     city: "",
     gender: "",
+    interest: [],
   });
 
   const [errors, setErrors] = useState({
@@ -19,17 +20,30 @@ export default function Registration({ onClose }) {
     phone: "",
     city: "",
     gender: "",
+    interest: "",
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    const { name, value, type, checked } = e.target;
+
+    if (type === "checkbox") {
+      // Handle checkbox for interests
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        interest: checked
+          ? [...prevFormData.interest, value]
+          : prevFormData.interest.filter((item) => item !== value),
+      }));
+    } else {
+      // Handle other input fields
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
     setErrors({
       ...errors,
-      [name]: "", // Clear the error when the user starts typing
+      [name]: "",
     });
   };
 
@@ -82,6 +96,18 @@ export default function Registration({ onClose }) {
       return;
     }
 
+    // Validate interests (at least one selected)
+    if (
+      formData.gender.trim() === "end User" &&
+      formData.interest.length === 0
+    ) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        interest: "Please select at least one interest",
+      }));
+      return;
+    }
+
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
@@ -91,10 +117,11 @@ export default function Registration({ onClose }) {
       mobile: formData.phone,
       city: formData.city,
       youAre: formData.gender,
+      interests: formData.interest.join(", "),
     });
 
     var requestOptions = {
-      method: "POST", // Change the method to POST
+      method: "POST",
       headers: myHeaders,
       body: raw,
       redirect: "follow",
@@ -126,6 +153,7 @@ export default function Registration({ onClose }) {
       phone: "",
       city: "",
       gender: "",
+      interest: [],
     });
 
     // After successful submission, close the form
@@ -135,6 +163,13 @@ export default function Registration({ onClose }) {
   const closeRegistrationForm = () => {
     onClose();
   };
+
+  const interestsOptions =
+    formData.gender === "end User"
+      ? ["Buying Vehicle", "Selling Vehicle", "Property Vehicle"]
+      : formData.gender === "vehicle dealer"
+      ? ["Bank Auction", "Insurance Auction", "Property Auction"]
+      : [];
 
   return (
     <>
@@ -233,6 +268,28 @@ export default function Registration({ onClose }) {
                   <p className="text-red-500 text-lg mt-1">{errors.gender}</p>
                 )}
               </div>
+
+              <div className="mb-5">
+                <label className="block mb-2 text-lg">Interests:</label>
+                {interestsOptions.map((interest, index) => (
+                  <div key={index} className="flex items-center mb-2">
+                    <input
+                      type="checkbox"
+                      id={`interest_${index}`}
+                      name="interest"
+                      value={interest}
+                      checked={formData.interest.includes(interest)}
+                      onChange={handleChange}
+                      className="mr-2"
+                    />
+                    <label htmlFor={`interest_${index}`}>{interest}</label>
+                  </div>
+                ))}
+                {errors.interest && (
+                  <p className="text-red-500 text-lg mt-1">{errors.interest}</p>
+                )}
+              </div>
+
               <button
                 type="submit"
                 className="bg-[#fbb42b] text-white py-2 px-4 rounded w-full"
