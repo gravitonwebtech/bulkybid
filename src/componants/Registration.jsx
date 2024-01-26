@@ -1,8 +1,11 @@
-import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { Link } from "react-router-dom";
 
 export default function Registration({ onClose }) {
   const [formData, setFormData] = useState({
@@ -45,6 +48,13 @@ export default function Registration({ onClose }) {
       ...errors,
       [name]: "",
     });
+  };
+  const [open, setopen] = useState(true);
+  const OpenLogin = () => {
+    setopen(false);
+  };
+  const OpenRegistation = () => {
+    setopen(true);
   };
 
   const handleSubmit = (e) => {
@@ -112,12 +122,12 @@ export default function Registration({ onClose }) {
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
-      name: formData.username,
+      username: formData.username,
       email: formData.email,
-      mobile: formData.phone,
+      phone: formData.phone,
       city: formData.city,
-      youAre: formData.gender,
-      interests: formData.interest.join(", "),
+      gender: formData.gender,
+      interest: formData.interest,
     });
 
     var requestOptions = {
@@ -127,21 +137,22 @@ export default function Registration({ onClose }) {
       redirect: "follow",
     };
 
-    fetch("https://legal257.pythonanywhere.com/api/request/", requestOptions)
-      .then((response) => response.json()) // Assuming the response is in JSON format
+    fetch(
+      "https://legal257.pythonanywhere.com/api/api/profiles/",
+      requestOptions
+    )
+      .then((response) => response.text())
       .then((result) => {
         toast.success("Form submitted successfully!", {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 2000,
         });
 
-        // Close the form after 10 seconds
-        setTimeout(() => {
-          onClose();
-        }, 3000);
         console.log(result);
       })
       .catch((error) => console.log("error", error));
+
+    // Close the form after 10 seconds
 
     // Handle form submission logic here
     console.log("Form data submitted:", formData);
@@ -171,135 +182,288 @@ export default function Registration({ onClose }) {
       ? ["Bank Auction", "Insurance Auction", "Property Auction"]
       : [];
 
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState(null); // Store the user's role
+  const [error, setError] = useState(null); // Store login error message
+  const navigate = useNavigate(); // Access the navigation function
+
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const handleLogin = async () => {
+    try {
+      // Make a fetch request to the login API
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Cookie", "csrftoken=Z9nseXk0218jRsyMVwAhHRYLPsrUDGZf");
+
+      var raw = JSON.stringify({
+        email: username,
+        password: password,
+      });
+
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+
+      const response = await fetch("rolebased/login/", requestOptions);
+      const data = await response.json();
+
+      if (response.status === 200) {
+        // localStorage.setItem("username", username);
+
+        localStorage.setItem("userData", username);
+        localStorage.setItem("Name", data.first_name);
+        // Login successful, set the user's role
+        setRole(data.role);
+        // setUserType(data.role);
+      } else {
+        // Login failed, display error message
+        console.log(response);
+        setShowSuccessPopup(true);
+        setError("Login failedsss");
+      }
+    } catch (error) {
+      console.error("Login failed", error);
+      setError("Login failed");
+    }
+  };
+
+  useEffect(() => {
+    // Use the useEffect hook to trigger navigation when the role changes
+    if (role === "1") {
+      localStorage.setItem("login", "admin");
+      navigate("/adminDashboard");
+      window.location.reload();
+    } else if (role === "2") {
+      navigate("/page2");
+    } else if (role === "3") {
+      localStorage.setItem("login", "user");
+
+      navigate("/userDashboard");
+      window.location.reload();
+    }
+  }, [role, navigate]);
+
   return (
     <>
       <div className="fixed inset-0 bg-black bg-opacity-70 z-50">
         <div className="fixed inset-0 z-50 top-0 left-0 h-full w-4/5 md:w-1/3">
-          <div className="bg-white shadow h-full p-5">
-            <button
-              onClick={closeRegistrationForm}
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-            >
-              <FontAwesomeIcon icon={faTimes} />
-            </button>
-            <h2 className="text-2xl font-semibold mb-10">Registration Form</h2>
-            <form onSubmit={handleSubmit}>
-              <div className="mb-5">
-                <input
-                  type="text"
-                  id="username"
-                  name="username"
-                  value={formData.username}
-                  onChange={handleChange}
-                  className={`w-full p-2 border-2 border-gray-200 rounded ${
-                    errors.username && "border-red-500"
-                  }`}
-                  placeholder="Name"
-                />
-                {errors.username && (
-                  <p className="text-red-500 text-lg mt-1">{errors.username}</p>
-                )}
-              </div>
-              <div className="mb-5">
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className={`w-full p-2 border-2 border-gray-200 rounded ${
-                    errors.email && "border-red-500"
-                  }`}
-                  placeholder="Email"
-                />
-                {errors.email && (
-                  <p className="text-red-500 text-lg mt-1">{errors.email}</p>
-                )}
-              </div>
-              <div className="mb-5">
-                <input
-                  type="text"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className={`w-full p-2 border-2 border-gray-200 rounded ${
-                    errors.phone && "border-red-500"
-                  }`}
-                  placeholder="Phone Number"
-                />
-                {errors.phone && (
-                  <p className="text-red-500 text-lg mt-1">{errors.phone}</p>
-                )}
-              </div>
-
-              <div className="mb-5">
-                <input
-                  type="text"
-                  id="city"
-                  name="city"
-                  value={formData.city}
-                  onChange={handleChange}
-                  className={`w-full p-2 border-2 border-gray-200 rounded ${
-                    errors.city && "border-red-500"
-                  }`}
-                  placeholder="City"
-                />
-                {errors.city && (
-                  <p className="text-red-500 text-lg mt-1">{errors.city}</p>
-                )}
-              </div>
-
-              <div className="mb-5">
-                <select
-                  id="gender"
-                  name="gender"
-                  value={formData.gender}
-                  onChange={handleChange}
-                  className={`w-full p-2 border-2 border-gray-200 rounded ${
-                    errors.gender && "border-red-500"
-                  }`}
-                >
-                  <option value="">You Are</option>
-                  <option value="end User">End User</option>
-                  <option value="vehicle dealer">Vehicle Dealer</option>
-                </select>
-                {errors.gender && (
-                  <p className="text-red-500 text-lg mt-1">{errors.gender}</p>
-                )}
-              </div>
-
-              <div className="mb-5">
-                <label className="block mb-2 text-lg">Interests:</label>
-                {interestsOptions.map((interest, index) => (
-                  <div key={index} className="flex items-center mb-2">
-                    <input
-                      type="checkbox"
-                      id={`interest_${index}`}
-                      name="interest"
-                      value={interest}
-                      checked={formData.interest.includes(interest)}
-                      onChange={handleChange}
-                      className="mr-2"
-                    />
-                    <label htmlFor={`interest_${index}`}>{interest}</label>
-                  </div>
-                ))}
-                {errors.interest && (
-                  <p className="text-red-500 text-lg mt-1">{errors.interest}</p>
-                )}
-              </div>
-
+          {open ? (
+            <div className="bg-white shadow h-full p-5">
               <button
-                type="submit"
-                className="bg-[#fbb42b] text-white py-2 px-4 rounded w-full"
+                onClick={closeRegistrationForm}
+                className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
               >
-                Submit
+                <FontAwesomeIcon icon={faTimes} />
               </button>
-            </form>
-          </div>
+              <h2 className="text-2xl font-semibold mb-10">
+                Registration Form
+              </h2>
+              <form onSubmit={handleSubmit}>
+                <div className="mb-5">
+                  <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    value={formData.username}
+                    onChange={handleChange}
+                    className={`w-full p-2 border-2 border-gray-200 rounded ${
+                      errors.username && "border-red-500"
+                    }`}
+                    placeholder="Name"
+                  />
+                  {errors.username && (
+                    <p className="text-red-500 text-lg mt-1">
+                      {errors.username}
+                    </p>
+                  )}
+                </div>
+                <div className="mb-5">
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className={`w-full p-2 border-2 border-gray-200 rounded ${
+                      errors.email && "border-red-500"
+                    }`}
+                    placeholder="Email"
+                  />
+                  {errors.email && (
+                    <p className="text-red-500 text-lg mt-1">{errors.email}</p>
+                  )}
+                </div>
+                <div className="mb-5">
+                  <input
+                    type="text"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    className={`w-full p-2 border-2 border-gray-200 rounded ${
+                      errors.phone && "border-red-500"
+                    }`}
+                    placeholder="Phone Number"
+                  />
+                  {errors.phone && (
+                    <p className="text-red-500 text-lg mt-1">{errors.phone}</p>
+                  )}
+                </div>
+
+                <div className="mb-5">
+                  <input
+                    type="text"
+                    id="city"
+                    name="city"
+                    value={formData.city}
+                    onChange={handleChange}
+                    className={`w-full p-2 border-2 border-gray-200 rounded ${
+                      errors.city && "border-red-500"
+                    }`}
+                    placeholder="City"
+                  />
+                  {errors.city && (
+                    <p className="text-red-500 text-lg mt-1">{errors.city}</p>
+                  )}
+                </div>
+
+                <div className="mb-5">
+                  <select
+                    id="gender"
+                    name="gender"
+                    value={formData.gender}
+                    onChange={handleChange}
+                    className={`w-full p-2 border-2 border-gray-200 rounded ${
+                      errors.gender && "border-red-500"
+                    }`}
+                  >
+                    <option value="">You Are</option>
+                    <option value="end User">End User</option>
+                    <option value="vehicle dealer">Vehicle Dealer</option>
+                  </select>
+                  {errors.gender && (
+                    <p className="text-red-500 text-lg mt-1">{errors.gender}</p>
+                  )}
+                </div>
+
+                <div className="mb-5">
+                  <label className="block mb-2 text-lg">Interests:</label>
+                  {interestsOptions.map((interest, index) => (
+                    <div key={index} className="flex items-center mb-2">
+                      <input
+                        type="checkbox"
+                        id={`interest_${index}`}
+                        name="interest"
+                        value={interest}
+                        checked={formData.interest.includes(interest)}
+                        onChange={handleChange}
+                        className="mr-2"
+                      />
+                      <label htmlFor={`interest_${index}`}>{interest}</label>
+                    </div>
+                  ))}
+                  {errors.interest && (
+                    <p className="text-red-500 text-lg mt-1">
+                      {errors.interest}
+                    </p>
+                  )}
+                </div>
+
+                <button
+                  type="submit"
+                  className="bg-[#fbb42b] text-white py-2 px-4 rounded w-full"
+                >
+                  Submit
+                </button>
+                <button
+                  type="submit"
+                  onClick={OpenLogin}
+                  className="bg-[#5820c8] mt-3 text-white py-2 px-4 rounded w-full"
+                >
+                  Login
+                </button>
+              </form>
+            </div>
+          ) : (
+            <div className="bg-white shadow h-full p-5">
+              <button
+                onClick={closeRegistrationForm}
+                className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+              >
+                <FontAwesomeIcon icon={faTimes} />
+              </button>
+              <h2 className="text-2xl font-semibold mb-10">
+                Registration Form
+              </h2>
+
+              <form>
+                <p className="mt-10">
+                  <label className="font-bold text-2xl">Email</label>
+
+                  <input
+                    type="email"
+                    className="w-full p-2 border-2 mt-3"
+                    placeholder="Email"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                  />
+                </p>
+
+                <p className="mt-5">
+                  <label className="font-bold text-2xl">Password</label>
+
+                  <input
+                    type="password"
+                    className="w-full p-2 border-2 mt-3"
+                    placeholder="Enter Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </p>
+
+                <Link to="/forget">
+                  <h1 className="text-[#64666C] text-lg font-semibold hover:underline mt-3">
+                    Forgot Password
+                  </h1>
+                </Link>
+
+                {error && (
+                  <div className="text-red-600 text-sm mb-4">{error}</div>
+                )}
+
+                <p className="mt-1">
+                  <Link to="">
+                    <button
+                      onClick={() => {
+                        handleLogin();
+                      }}
+                      className="bg-[#142bac] text-white py-2 px-4 rounded w-full"
+                    >
+                      Login
+                    </button>
+                  </Link>
+
+                  <Link>
+                    <button
+                      onClick={OpenRegistation}
+                      className="bg-[#4ee637] mt-3 text-white py-2 px-4 rounded w-full"
+                    >
+                      Register
+                    </button>
+                  </Link>
+                </p>
+              </form>
+            </div>
+          )}
         </div>
       </div>
+
       <ToastContainer />
     </>
   );

@@ -214,7 +214,6 @@ export default function Home() {
     settings.slidesToShow = 1;
   }
 
-
   const [showRegistrationForm, setShowRegistrationForm] = useState(false);
 
   const openRegistrationForm = () => {
@@ -224,7 +223,7 @@ export default function Home() {
   const closeRegistrationForm = () => {
     setShowRegistrationForm(false);
   };
-  
+
   return (
     <>
       {/* <div className="mt-20">
@@ -244,7 +243,7 @@ export default function Home() {
           <div className="events">
             {events.map((data, index) => (
               <div key={index}>
-                <div className="border border-2 rounded p-3 mb-3">
+                <div className=" border-2 rounded p-3 mb-3">
                   <h3>{data.heading}</h3>
                   <p>{data.paragraph}</p>
                   <div className="grid grid-cols-2 gap-4">
@@ -284,7 +283,7 @@ export default function Home() {
           <div className="events">
             {events.map((data, index) => (
               <div key={index}>
-                <div className="border border-2 rounded p-3 mb-3">
+                <div className=" border-2 rounded p-3 mb-3">
                   <h3>{data.heading}</h3>
                   <p>{data.paragraph}</p>
                   <div className="grid grid-cols-2 gap-4">
