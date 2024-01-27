@@ -75,13 +75,32 @@ const AddRegistrations = () => {
 
       fetch("http://127.0.0.1:8000/api/accounts/", requestOptions)
         .then(response => response.text())
-        .then(result => console.log(result))
+        .then(result =>{ console.log(result)
+          emailSending()
+         } )
         .catch(error => console.log('error', error));
     }
   };
 
+  const emailSending =()=>{
+    var formdata = new FormData();
+formdata.append("to", formData.email);
+formdata.append("userid", formData.username);
+formdata.append("password",formData.password)
+var requestOptions = {
+  method: 'POST',
+  body: formdata,
+  redirect: 'follow'
+};
+
+fetch("http://127.0.0.1:8000/api/emailNewRegistratinos/", requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
+  }
+
   return (
-    <div className="container mx-auto mt-20">
+    <div className="container mx-auto ">
       <form className="max-w-md mx-auto bg-white p-8 border rounded-md shadow-md">
         <h2 className="text-2xl font-semibold mb-4">Registration Form</h2>
 

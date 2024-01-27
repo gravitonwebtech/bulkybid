@@ -15,6 +15,10 @@ import CarModelList from "./componants/admin/CarModelList";
 import AddRegistrations from "./componants/admin/AddRegistrations";
 import UserDashboard from "./componants/admin/Dashboard/UserDashboard";
 import AdminDahsboard from "./componants/admin/AdminDahsboard";
+import MakePayment from "./componants/MakePayment";
+import PaymentDetails from "./componants/PaymentDetails";
+import ProfileCard from "./componants/ProfileCard";
+import RequestForRegistration from "./componants/RequestForRegistration";
 
 
 const App = () => {
@@ -36,7 +40,11 @@ const App = () => {
           <Route path="/auction/:userId" element={<Auction />} />
           <Route path="/addRegistration" element={<AddRegistrations />} />
           <Route path="/dashboard" element={<UserDashboard />} />
-          <Route path="/dash" element={<AdminDahsboard />} />
+          <Route path="/make-payment" element={<MakePayment />} />
+          <Route path="/payment-details" element={<PaymentDetails />} />
+          <Route path="/profile-details" element={<ProfileCard />} />
+          <Route path="/requestForRegister" element={<RequestForRegistration />} />
+
 
 
 

@@ -8,50 +8,72 @@ export default function ListingService() {
     setToggle(id);
   }
 
-
   const [carModels, setCarModels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    // const fetchData = async () => {
+    //   try {
+    //     const response = await fetch(
+    //       "legal257.pythonanywhere.com/api/bulkupload_excel/"
+    //     );
+    //     const result = await response.text();
+    //     console.log(result);
+    //     // if (response) {
+    //     //   setCarModels(response);
+    //     // } else {
+    //     //   console.error("Invalid data format:", response);
+    //     //   setError("Error fetching data. Please try again later.");
+    //     // }
+    //   } catch (error) {
+    //     console.error("Error fetching car models:", error);
+    //     setError("Error fetching data. Please try again later.");
+    //   } finally {
+    //     setLoading(false);
+    //   }
+    // };
+    //     fetchData();
+  }, []);
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/carmodels/list/");
-        const responseData = await response.json();
+        const response = await fetch(
+          "https://legal257.pythonanywhere.com/api/bulkupload_excel/"
+        );
 
-        // Check if response has a 'data' property with an array
-        if (responseData && responseData.data && Array.isArray(responseData.data)) {
-          console.log(responseData.data)
-          setCarModels(responseData.data);
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          const result = await response.json();
+          console.log("first---->", result);
+          setCarModels(result);
         } else {
-          console.error('Invalid data format:', responseData);
-          setError('Error fetching data. Please try again later.');
+          console.error("Unexpected response format:", await response.text());
         }
       } catch (error) {
-        console.error('Error fetching car models:', error);
-        setError('Error fetching data. Please try again later.');
-      } finally {
-        setLoading(false);
+        console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
   }, []);
-  
+
   const navigate = useNavigate();
 
   const handleRowClick = (item) => {
-    console.log(item)
+    console.log(item);
     navigate(`/auction/${item}`);
   };
-
-
 
   return (
     <>
       <div className="overflow-x-auto">
         <div className="mx-0 md:mx-20 lg:mx-28 xl:mx-40 mt-24 md:mt-32">
-         
           <div>
             <ul className="flex  mx-5 md:mx-0">
               <li
@@ -74,36 +96,30 @@ export default function ListingService() {
               </li>
             </ul>
 
-        
-
-       
-              <table className="min-w-full bg-white rounded border-2 shadow mt-5">
-                <thead>
-                  <tr className="bg-gray-100 text-gray-700 text-left">
-                    <th className="py-3 px-4 font-semibold">AUCTION NAME</th>
-                    <th className="py-3 px-4 font-semibold">LOCATION</th>
-                    <th className="py-3 px-4 font-semibold">FORMAT</th>
-                    <th className="py-3 px-4 font-semibold">ENDING</th>
-                    <th className="py-3 px-4 font-semibold">
-                      VEHICLE AVAILABLE
-                    </th>
+            <table className="min-w-full bg-white rounded border-2 shadow mt-5">
+              <thead>
+                <tr className="bg-gray-100 text-gray-700 text-left">
+                  <th className="py-3 px-4 font-semibold">AUCTION NAME</th>
+                  <th className="py-3 px-4 font-semibold">LOCATION</th>
+                  <th className="py-3 px-4 font-semibold">FORMAT</th>
+                  <th className="py-3 px-4 font-semibold">ENDING</th>
+                  <th className="py-3 px-4 font-semibold">VEHICLE AVAILABLE</th>
+                </tr>
+              </thead>
+              <tbody className="text-gray-700">
+                {carModels.map((item, index) => (
+                  <tr key={index} onClick={() => handleRowClick(item.deal_no)}>
+                    <td className="py-3 px-4 font-semibold">
+                      {item.dealer_name}
+                    </td>
+                    <td className="py-3 px-4">{item.location}</td>
+                    <td className="py-3 px-4">{item.format}</td>
+                    <td className="py-3 px-4">{item.end_time}</td>
+                    <td className="py-3 px-4">{item.quantity}</td>
                   </tr>
-                </thead>
-                <tbody className="text-gray-700">
-                  {carModels.map((item, index) => (
-                    <tr key={index} onClick={ ()=>handleRowClick(item.Auction_type) } >
-                      <td className="py-3 px-4 font-semibold">
-                        {item.Auction_type}
-                      </td>
-                      <td className="py-3 px-4">{item.location}</td>
-                      <td className="py-3 px-4">{item.format}</td>
-                      <td className="py-3 px-4">{item.end_time}</td>
-                      <td className="py-3 px-4">{item.quantity}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-         
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

@@ -140,6 +140,15 @@ const Navbar = () => {
                     About
                   </Link>
                 </li>
+                <li>
+                      <Link
+                        to="/make-payment"
+                        className=" hover:text-blue-500"
+                        onClick={() => setIsDrawerOpen(false)}
+                      >
+                        Make Payment
+                      </Link>
+                    </li>
 
                 {/* <li>
                   <Link
@@ -166,6 +175,8 @@ const Navbar = () => {
                     >
                       Services
                     </Link>
+
+                   
 
                     {isBusinessOpen ? (
                       <svg
@@ -253,7 +264,8 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li>
-                  {localStorage.getItem("login") === "user" || localStorage.getItem("login") === "admin" ? (
+                  {localStorage.getItem("login") === "user" ||
+                  localStorage.getItem("login") === "admin" ? (
                     <Link
                       to="/"
                       className="hover:text-blue-500"
@@ -289,6 +301,15 @@ const Navbar = () => {
                 About
               </Link>
             </li>
+            <li>
+                      <Link
+                        to="/make-payment"
+                        className=" hover:text-blue-500"
+                        onClick={() => setIsDrawerOpen(false)}
+                      >
+                        Make Payment
+                      </Link>
+                    </li>
 
             {/* <li>
               <Link
@@ -312,6 +333,8 @@ const Navbar = () => {
               >
                 Services
               </Link>
+
+              
 
               <button
                 className="first-dropdown-button"
@@ -398,7 +421,8 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              {localStorage.getItem("login") === "user"  || localStorage.getItem("login") === "admin" ? (
+              {localStorage.getItem("login") === "user" ||
+              localStorage.getItem("login") === "admin" ? (
                 <Link
                   to="/"
                   className="hover:text-blue-500 "

@@ -182,52 +182,55 @@ export default function Registration({ onClose }) {
       ? ["Bank Auction", "Insurance Auction", "Property Auction"]
       : [];
 
-      const [username, setUsername] = useState("");
-      const [password, setPassword] = useState("");
-      const [role, setRole] = useState(null); // Store the user's role
-      const [error, setError] = useState(null); // Store login error message
-      const navigate = useNavigate(); // Access the navigation function
-    
-      const handleLogin = async () => {
-        try {
-          // Make a fetch request to the login API
-          const myHeaders = new Headers();
-          myHeaders.append("Content-Type", "application/json");
-          myHeaders.append("Cookie", "csrftoken=tZQ0YhIzvFexGiWzliaB4MH6PoHbq2eu");
-    
-          const requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: JSON.stringify({
-              "username": username,
-              "password": password
-            }),
-            redirect: 'follow'
-          };
-    
-          const response = await fetch("http://127.0.0.1:8000/api/login/", requestOptions);
-          const result = await response.json();
-    
-          localStorage.setItem("LoginuserData", username);
-          setRole(result.role);
-        } catch (error) {
-          console.error("Login failed", error);
-          setError("Login failed");
-        }
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState(null); // Store the user's role
+  const [error, setError] = useState(null); // Store login error message
+  const navigate = useNavigate(); // Access the navigation function
+
+  const handleLogin = async () => {
+    try {
+      // Make a fetch request to the login API
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Cookie", "csrftoken=tZQ0YhIzvFexGiWzliaB4MH6PoHbq2eu");
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
+        redirect: "follow",
       };
-    
-      useEffect(() => {
-        if (role === "Admin") {
-          localStorage.setItem("login", "admin");
-          navigate("/contact");
-          window.location.reload();
-        } else if (role === "User") {
-          localStorage.setItem("login", "user");
-          navigate("/car");
-          window.location.reload();
-        }
-      }, [role, navigate]);
-    
+
+      const response = await fetch(
+        "http://127.0.0.1:8000/api/login/",
+        requestOptions
+      );
+      const result = await response.json();
+
+      localStorage.setItem("LoginuserData", username);
+      setRole(result.role);
+    } catch (error) {
+      console.error("Login failed", error);
+      setError("Login failed");
+    }
+  };
+
+  useEffect(() => {
+    if (role === "Admin") {
+      localStorage.setItem("login", "admin");
+      navigate("/");
+      window.location.reload();
+    } else if (role === "User") {
+      localStorage.setItem("login", "user");
+      navigate("/dashboard");
+      window.location.reload();
+    }
+  }, [role, navigate]);
+
   return (
     <>
       <div className="fixed inset-0 bg-black bg-opacity-70 z-50">
