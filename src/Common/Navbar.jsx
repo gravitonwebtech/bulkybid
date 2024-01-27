@@ -35,6 +35,16 @@ const Navbar = () => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
+  const handleLogOut = () => {
+    localStorage.removeItem("login");
+    localStorage.removeItem("LoginuserData");
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("LoginuserData") == null) {
+      navigate("/");
+    }
+  }, []);
   return (
     <>
       <nav
@@ -242,6 +252,17 @@ const Navbar = () => {
                     Contact
                   </Link>
                 </li>
+                <li>
+                  {localStorage.getItem("login") === "user" || localStorage.getItem("login") === "admin" ? (
+                    <Link
+                      to="/"
+                      className="hover:text-blue-500"
+                      onClick={handleLogOut}
+                    >
+                      Logout
+                    </Link>
+                  ) : null}
+                </li>
               </ul>
             </div>
           )}
@@ -375,6 +396,17 @@ const Navbar = () => {
               >
                 Contact
               </Link>
+            </li>
+            <li>
+              {localStorage.getItem("login") === "user"  || localStorage.getItem("login") === "admin" ? (
+                <Link
+                  to="/"
+                  className="hover:text-blue-500 "
+                  onClick={() => handleLogOut()}
+                >
+                  Logout
+                </Link>
+              ) : null}
             </li>
           </ul>
         </div>

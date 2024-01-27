@@ -182,71 +182,52 @@ export default function Registration({ onClose }) {
       ? ["Bank Auction", "Insurance Auction", "Property Auction"]
       : [];
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState(null); // Store the user's role
-  const [error, setError] = useState(null); // Store login error message
-  const navigate = useNavigate(); // Access the navigation function
-
-  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
-  const handleLogin = async () => {
-    try {
-      // Make a fetch request to the login API
-      var myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("Cookie", "csrftoken=Z9nseXk0218jRsyMVwAhHRYLPsrUDGZf");
-
-      var raw = JSON.stringify({
-        email: username,
-        password: password,
-      });
-
-      var requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: raw,
-        redirect: "follow",
+      const [username, setUsername] = useState("");
+      const [password, setPassword] = useState("");
+      const [role, setRole] = useState(null); // Store the user's role
+      const [error, setError] = useState(null); // Store login error message
+      const navigate = useNavigate(); // Access the navigation function
+    
+      const handleLogin = async () => {
+        try {
+          // Make a fetch request to the login API
+          const myHeaders = new Headers();
+          myHeaders.append("Content-Type", "application/json");
+          myHeaders.append("Cookie", "csrftoken=tZQ0YhIzvFexGiWzliaB4MH6PoHbq2eu");
+    
+          const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: JSON.stringify({
+              "username": username,
+              "password": password
+            }),
+            redirect: 'follow'
+          };
+    
+          const response = await fetch("http://127.0.0.1:8000/api/login/", requestOptions);
+          const result = await response.json();
+    
+          localStorage.setItem("LoginuserData", username);
+          setRole(result.role);
+        } catch (error) {
+          console.error("Login failed", error);
+          setError("Login failed");
+        }
       };
-
-      const response = await fetch("rolebased/login/", requestOptions);
-      const data = await response.json();
-
-      if (response.status === 200) {
-        // localStorage.setItem("username", username);
-
-        localStorage.setItem("userData", username);
-        localStorage.setItem("Name", data.first_name);
-        // Login successful, set the user's role
-        setRole(data.role);
-        // setUserType(data.role);
-      } else {
-        // Login failed, display error message
-        console.log(response);
-        setShowSuccessPopup(true);
-        setError("Login failedsss");
-      }
-    } catch (error) {
-      console.error("Login failed", error);
-      setError("Login failed");
-    }
-  };
-
-  useEffect(() => {
-    // Use the useEffect hook to trigger navigation when the role changes
-    if (role === "1") {
-      localStorage.setItem("login", "admin");
-      navigate("/adminDashboard");
-      window.location.reload();
-    } else if (role === "2") {
-      navigate("/page2");
-    } else if (role === "3") {
-      localStorage.setItem("login", "user");
-
-      navigate("/userDashboard");
-      window.location.reload();
-    }
-  }, [role, navigate]);
-
+    
+      useEffect(() => {
+        if (role === "Admin") {
+          localStorage.setItem("login", "admin");
+          navigate("/contact");
+          window.location.reload();
+        } else if (role === "User") {
+          localStorage.setItem("login", "user");
+          navigate("/car");
+          window.location.reload();
+        }
+      }, [role, navigate]);
+    
   return (
     <>
       <div className="fixed inset-0 bg-black bg-opacity-70 z-50">

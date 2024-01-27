@@ -12,6 +12,10 @@ import Auction from "./componants/Auction";
 import SaleCalendar from "./componants/SaleCalendar";
 import ExcelData from "./componants/ExcelData";
 import CarModelList from "./componants/admin/CarModelList";
+import AddRegistrations from "./componants/admin/AddRegistrations";
+import UserDashboard from "./componants/admin/Dashboard/UserDashboard";
+import AdminDahsboard from "./componants/admin/AdminDahsboard";
+
 
 const App = () => {
   return (
@@ -30,6 +34,12 @@ const App = () => {
           <Route path="/excel" element={<ExcelData />} />
           <Route path="/car" element={<CarModelList />} />
           <Route path="/auction/:userId" element={<Auction />} />
+          <Route path="/addRegistration" element={<AddRegistrations />} />
+          <Route path="/dashboard" element={<UserDashboard />} />
+          <Route path="/dash" element={<AdminDahsboard />} />
+
+
+
         </Routes>
 
         <Footer1 />
