@@ -14,18 +14,10 @@ export default function UserDashboard() {
   const [image, setImage] = useState(null);
   const [toggle, setToggle] = useState(1);
   const fileInputRef = useRef(null);
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setImage(imageUrl);
-    }
-  };
 
   const handleToggle = (value) => {
     setToggle(value);
   };
-
 
   // mobile device
 
@@ -53,7 +45,7 @@ export default function UserDashboard() {
             <div className="relative">
               <button
                 onClick={handleDrawerIconClick}
-                className="fixed top-0 right-0 m-4 p-2 text-white bg-[#09A350] rounded-full z-50"
+                className="fixed top-10 left-0 m-4 p-2 text-white bg-[#09A350] rounded-full z-50"
               >
                 Sidebar
               </button>
@@ -68,12 +60,8 @@ export default function UserDashboard() {
                       >
                         <h1>Close</h1>
                       </div>
-                     
 
-                     
                       <div className="mt-8 px-5">
-                       
-
                         <div
                           className={`flex mt-4 ${
                             selectedSection === 1 && "font-bold"
@@ -132,7 +120,6 @@ export default function UserDashboard() {
                         </div>
                       </div>
 
-                   
                       <div className="flex mt-5 md:mt-[150px] ">
                         <div>
                           <img src={Logout} alt="Logout" className="mt-1" />
@@ -159,10 +146,8 @@ export default function UserDashboard() {
         <div className="hidden xl:block">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-5 md:mx-10">
             <div className="relative md:col-span-2 border-2 p-3 rounded-[14px] bg-white shadow">
-           
-
               <h1 className="font-bold text-[#09A350] text-center text-lg mt-2">
-              Hello
+                Hello
               </h1>
 
               <div className="mt-8 px-5">
@@ -209,8 +194,6 @@ export default function UserDashboard() {
                 </div>
               </div>
 
-          
-
               <div className="flex pl-5 absolute bottom-0 left-0  right-0 ">
                 <div>
                   <img src={Logout} alt="image" className="mt-1" />
@@ -232,5 +215,3 @@ export default function UserDashboard() {
     </>
   );
 }
-
-

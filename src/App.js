@@ -19,6 +19,7 @@ import MakePayment from "./componants/MakePayment";
 import PaymentDetails from "./componants/PaymentDetails";
 import ProfileCard from "./componants/ProfileCard";
 import RequestForRegistration from "./componants/RequestForRegistration";
+import Socket from "./componants/Socket";
 
 
 const App = () => {
@@ -44,6 +45,8 @@ const App = () => {
           <Route path="/payment-details" element={<PaymentDetails />} />
           <Route path="/profile-details" element={<ProfileCard />} />
           <Route path="/requestForRegister" element={<RequestForRegistration />} />
+          <Route path="/socket" element={<Socket />} />
+
 
 
 

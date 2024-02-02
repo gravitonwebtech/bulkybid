@@ -222,11 +222,11 @@ export default function Registration({ onClose }) {
   useEffect(() => {
     if (role === "Admin") {
       localStorage.setItem("login", "admin");
-      navigate("/");
+      navigate("/dashboard");
       window.location.reload();
     } else if (role === "User") {
       localStorage.setItem("login", "user");
-      navigate("/dashboard");
+      navigate("/auctionlist");
       window.location.reload();
     }
   }, [role, navigate]);
@@ -244,7 +244,7 @@ export default function Registration({ onClose }) {
                 <FontAwesomeIcon icon={faTimes} />
               </button>
               <h2 className="text-2xl font-semibold mb-10">
-                Registration Form
+                Inquery Form
               </h2>
               <form onSubmit={handleSubmit}>
                 <div className="mb-5">
@@ -381,17 +381,17 @@ export default function Registration({ onClose }) {
                 <FontAwesomeIcon icon={faTimes} />
               </button>
               <h2 className="text-2xl font-semibold mb-10">
-                Registration Form
+                Log In
               </h2>
 
               <form>
                 <p className="mt-10">
-                  <label className="font-bold text-2xl">Email</label>
+                  <label className="font-bold text-xl">Username</label>
 
                   <input
                     type="email"
                     className="w-full p-2 border-2 mt-3"
-                    placeholder="Email"
+                    placeholder="Username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     required
@@ -399,7 +399,7 @@ export default function Registration({ onClose }) {
                 </p>
 
                 <p className="mt-5">
-                  <label className="font-bold text-2xl">Password</label>
+                  <label className="font-bold text-xl">Password</label>
 
                   <input
                     type="password"
@@ -411,11 +411,11 @@ export default function Registration({ onClose }) {
                   />
                 </p>
 
-                <Link to="/forget">
+                {/* <Link to="/forget">
                   <h1 className="text-[#64666C] text-lg font-semibold hover:underline mt-3">
                     Forgot Password
                   </h1>
-                </Link>
+                </Link> */}
 
                 {error && (
                   <div className="text-red-600 text-sm mb-4">{error}</div>

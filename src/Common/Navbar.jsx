@@ -98,49 +98,96 @@ const Navbar = () => {
 
           {/* Drawer */}
 
-          {isDrawerOpen && (
-            <div className="lg:hidden absolute top-0 right-0 h-screen w-64 bg-[#DDDDDD] text-black p-4 shadow-md">
-              <button
-                className="text-white p-2 focus:outline-none absolute top-2 right-2"
-                onClick={() => setIsDrawerOpen(false)}
-              >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+          {localStorage.getItem("login") === "admin" ? (
+            <>
+              <div className="lg:hidden absolute top-0 right-0 h-screen w-64 bg-[#DDDDDD] text-black p-4 shadow-md">
+                <button
+                  className="text-white p-2 focus:outline-none absolute top-2 right-2"
+                  onClick={() => setIsDrawerOpen(false)}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  ></path>
-                </svg>
-              </button>
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    ></path>
+                  </svg>
+                </button>
 
-              <ul className="space-y-3">
-                <li>
-                  <Link
-                    to="/"
-                    className=" hover:text-blue-500"
+                <ul className="space-y-3">
+                  <li>
+                    <Link to="/dashboard" className="hover:text-blue-500 ">
+                      DashBoard
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/"
+                      className="hover:text-blue-500 "
+                      onClick={() => handleLogOut()}
+                    >
+                      Logout
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </>
+          ) : (
+            <>
+              {isDrawerOpen && (
+                <div className="lg:hidden absolute top-0 right-0 h-screen w-64 bg-[#DDDDDD] text-black p-4 shadow-md">
+                  <button
+                    className="text-white p-2 focus:outline-none absolute top-2 right-2"
                     onClick={() => setIsDrawerOpen(false)}
                   >
-                    Home
-                  </Link>
-                </li>
+                    <svg
+                      className="w-6 h-6"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      ></path>
+                    </svg>
+                  </button>
 
-                <li>
-                  <Link
-                    to="/about"
-                    className=" hover:text-blue-500"
-                    onClick={() => setIsDrawerOpen(false)}
-                  >
-                    About
-                  </Link>
-                </li>
-                <li>
+                  <ul className="space-y-3">
+                  {localStorage.getItem("login") !== "user" ? (
+
+                    <li>
+                      <Link
+                        to="/"
+                        className=" hover:text-blue-500"
+                        onClick={() => setIsDrawerOpen(false)}
+                      >
+                        Home
+                      </Link>
+                    </li>
+                  ):null}
+{localStorage.getItem("login") !== "user" ? (
+                    <li>
+                      <Link
+                        to="/about"
+                        className=" hover:text-blue-500"
+                        onClick={() => setIsDrawerOpen(false)}
+                      >
+                        About
+                      </Link>
+                    </li>
+):null}
+                    <li>
                       <Link
                         to="/make-payment"
                         className=" hover:text-blue-500"
@@ -150,7 +197,7 @@ const Navbar = () => {
                       </Link>
                     </li>
 
-                {/* <li>
+                    {/* <li>
                   <Link
                     to="/services"
                     className="hover:text-blue-500"
@@ -160,70 +207,68 @@ const Navbar = () => {
                   </Link>
                 </li> */}
 
-                <li>
-                  <button
-                    className="text-black hover:text-blue-500 focus:outline-none"
-                    onClick={() => {
-                      setIsBusinessOpen(!isBusinessOpen);
-                      setIsTrainingOpen(false);
-                    }}
-                  >
-                    <Link
-                      to="/services"
-                      className="hover:text-blue-500"
-                      onClick={() => setIsDrawerOpen(true)}
-                    >
-                      Services
-                    </Link>
-
-                   
-
-                    {isBusinessOpen ? (
-                      <svg
-                        className="w-4 h-4 inline ml-2"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
+                    <li>
+                      <button
+                        className="text-black hover:text-blue-500 focus:outline-none"
+                        onClick={() => {
+                          setIsBusinessOpen(!isBusinessOpen);
+                          setIsTrainingOpen(false);
+                        }}
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        ></path>
-                      </svg>
-                    ) : (
-                      <svg
-                        className="w-4 h-4 inline ml-2"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M9 5l7 7-7 7"
-                        ></path>
-                      </svg>
-                    )}
-                  </button>
+                        <Link
+                          to="/services"
+                          className="hover:text-blue-500"
+                          onClick={() => setIsDrawerOpen(true)}
+                        >
+                          Services
+                        </Link>
 
-                  {isBusinessOpen && (
-                    <div className="ml-2">
-                      <ul className="mt-2 space-y-1">
-                        <p>
-                          <Link
-                            to="/auctionlist"
-                            className="hover:text-blue-500"
-                            onClick={() => setIsDrawerOpen(false)}
+                        {isBusinessOpen ? (
+                          <svg
+                            className="w-4 h-4 inline ml-2"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
                           >
-                            Service Listing
-                          </Link>
-                        </p>
-                        {/* <p>
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M19 9l-7 7-7-7"
+                            ></path>
+                          </svg>
+                        ) : (
+                          <svg
+                            className="w-4 h-4 inline ml-2"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M9 5l7 7-7 7"
+                            ></path>
+                          </svg>
+                        )}
+                      </button>
+
+                      {isBusinessOpen && (
+                        <div className="ml-2">
+                          <ul className="mt-2 space-y-1">
+                            <p>
+                              <Link
+                                to="/auctionlist"
+                                className="hover:text-blue-500"
+                                onClick={() => setIsDrawerOpen(false)}
+                              >
+                                Service Listing
+                              </Link>
+                            </p>
+                            {/* <p>
                           <Link
                             to="/digitalwebinar"
                             className="hover:text-blue-500"
@@ -239,79 +284,105 @@ const Navbar = () => {
                             Grow Your Business
                           </a>
                         </p> */}
-                      </ul>
-                    </div>
-                  )}
-                </li>
+                          </ul>
+                        </div>
+                      )}
+                    </li>
 
-                <li>
-                  <Link
-                    to="/salecalendar"
-                    className="hover:text-blue-500"
-                    onClick={() => closeDropdowns()}
-                  >
-                    Sale Calendar
-                  </Link>
-                </li>
-
-                <li onClick={() => closeDropdowns()}>
-                  <Link
-                    to="/contact"
-                    className="hover:text-blue-500"
-                    onClick={() => setIsDrawerOpen(false)}
-                  >
-                    Contact
-                  </Link>
-                </li>
-                <li>
-                  {localStorage.getItem("login") === "user" ||
-                  localStorage.getItem("login") === "admin" ? (
-                    <Link
-                      to="/"
-                      className="hover:text-blue-500"
-                      onClick={handleLogOut}
-                    >
-                      Logout
-                    </Link>
-                  ) : null}
-                </li>
-              </ul>
-            </div>
-          )}
-
-          {/* for desktop */}
-
-          <ul className="hidden lg:flex text-md font-medium space-x-6">
-            <li>
-              <Link
-                to="/"
-                className="hover:text-blue-500"
-                onClick={() => closeDropdowns()}
-              >
-                Home
-              </Link>
-            </li>
-
-            <li>
-              <Link
-                to="/about"
-                className="hover:text-blue-500"
-                onClick={() => closeDropdowns()}
-              >
-                About
-              </Link>
-            </li>
-            <li>
+                    <li>
                       <Link
-                        to="/make-payment"
-                        className=" hover:text-blue-500"
-                        onClick={() => setIsDrawerOpen(false)}
+                        to="/salecalendar"
+                        className="hover:text-blue-500"
+                        onClick={() => closeDropdowns()}
                       >
-                        Make Payment
+                        Sale Calendar
                       </Link>
                     </li>
 
-            {/* <li>
+                    <li onClick={() => closeDropdowns()}>
+                      <Link
+                        to="/contact"
+                        className="hover:text-blue-500"
+                        onClick={() => setIsDrawerOpen(false)}
+                      >
+                        Contact
+                      </Link>
+                    </li>
+                    <li>
+                      {localStorage.getItem("login") === "user" ? (
+                        <Link
+                          to="/"
+                          className="hover:text-blue-500"
+                          onClick={() => handleLogOut()}
+                        >
+                          Logout
+                        </Link>
+                      ) : null}
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* for desktop */}
+          {localStorage.getItem("login") === "admin" ? (
+            <>
+              <ul className="hidden lg:flex text-md font-medium space-x-6">
+                <li>
+                  <Link to="/dashboard" className="hover:text-blue-500 ">
+                    DashBoard
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/"
+                    className="hover:text-blue-500 "
+                    onClick={() => handleLogOut()}
+                  >
+                    Logout
+                  </Link>
+                </li>
+              </ul>
+            </>
+          ) : (
+            <>
+              <ul className="hidden lg:flex text-md font-medium space-x-6">
+              {localStorage.getItem("login") !== "user" ? (
+                <li>
+                  
+                  <Link
+                    to="/"
+                    className="hover:text-blue-500"
+                    onClick={() => closeDropdowns()}
+                  >
+                    Home
+                  </Link>
+                </li>
+                 ):null}
+             
+             {localStorage.getItem("login") !== "user" ? (
+                <li>
+                  <Link
+                    to="/about"
+                    className="hover:text-blue-500"
+                    onClick={() => closeDropdowns()}
+                  >
+                    About
+                  </Link>
+                </li>
+                 ):null}
+                <li>
+                  <Link
+                    to="/make-payment"
+                    className=" hover:text-blue-500"
+                    onClick={() => setIsDrawerOpen(false)}
+                  >
+                    Make Payment
+                  </Link>
+                </li>
+
+                {/* <li>
               <Link
                 to="/services"
                 className="hover:text-blue-500"
@@ -321,62 +392,60 @@ const Navbar = () => {
               </Link>
             </li> */}
 
-            <li
-              className="relative"
-              onMouseEnter={() => setIsBusinessOpen(true)}
-              onMouseLeave={() => setIsTrainingOpen(false)}
-            >
-              <Link
-                to="/services"
-                className="hover:text-blue-500"
-                onClick={() => closeDropdowns()}
-              >
-                Services
-              </Link>
-
-              
-
-              <button
-                className="first-dropdown-button"
-                onClick={() => {
-                  setIsBusinessOpen(!isBusinessOpen);
-                  setIsTrainingOpen(false);
-                }}
-              >
-                <svg
-                  className={` h-3 ml-2 transition-transform transform ${
-                    isBusinessOpen ? "rotate-180" : "rotate-0"
-                  }`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M19 9l-7 7-7-7"
-                  ></path>
-                </svg>
-              </button>
-
-              {isBusinessOpen && (
-                <ul
+                <li
+                  className="relative"
                   onMouseEnter={() => setIsBusinessOpen(true)}
-                  onMouseLeave={() => setIsBusinessOpen(false)}
-                  className="absolute top-10 right-0 bg-white text-black border shadow-lg rounded-bl-lg rounded-br-lg text-center text-sm"
+                  onMouseLeave={() => setIsTrainingOpen(false)}
                 >
-                  <p className="px-5 py-3">
-                    <Link
-                      to="/auctionlist"
-                      className=" text-orange-500"
-                      onClick={() => closeDropdowns()}
+                  <Link
+                    to="/services"
+                    className="hover:text-blue-500"
+                    onClick={() => closeDropdowns()}
+                  >
+                    Services
+                  </Link>
+
+                  <button
+                    className="first-dropdown-button"
+                    onClick={() => {
+                      setIsBusinessOpen(!isBusinessOpen);
+                      setIsTrainingOpen(false);
+                    }}
+                  >
+                    <svg
+                      className={` h-3 ml-2 transition-transform transform ${
+                        isBusinessOpen ? "rotate-180" : "rotate-0"
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      Service Listing
-                    </Link>
-                  </p>
-                  {/* <p className="border-b-2 p-3">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M19 9l-7 7-7-7"
+                      ></path>
+                    </svg>
+                  </button>
+
+                  {isBusinessOpen && (
+                    <ul
+                      onMouseEnter={() => setIsBusinessOpen(true)}
+                      onMouseLeave={() => setIsBusinessOpen(false)}
+                      className="absolute top-10 right-0 bg-white text-black border shadow-lg rounded-bl-lg rounded-br-lg text-center text-sm"
+                    >
+                      <p className="px-5 py-3">
+                        <Link
+                          to="/auctionlist"
+                          className=" text-orange-500"
+                          onClick={() => closeDropdowns()}
+                        >
+                          Service Listing
+                        </Link>
+                      </p>
+                      {/* <p className="border-b-2 p-3">
                     <Link
                       to="/digitalwebinar"
                       className="text-black hover:text-blue-500"
@@ -397,42 +466,43 @@ const Navbar = () => {
                       Grow Your Business
                     </a>
                   </p> */}
-                </ul>
-              )}
-            </li>
+                    </ul>
+                  )}
+                </li>
 
-            <li>
-              <Link
-                to="/salecalendar"
-                className="hover:text-blue-500"
-                onClick={() => closeDropdowns()}
-              >
-                Sale Calendar
-              </Link>
-            </li>
+                <li>
+                  <Link
+                    to="/salecalendar"
+                    className="hover:text-blue-500"
+                    onClick={() => closeDropdowns()}
+                  >
+                    Sale Calendar
+                  </Link>
+                </li>
 
-            <li>
-              <Link
-                to="/contact"
-                className="hover:text-blue-500"
-                onClick={() => closeDropdowns()}
-              >
-                Contact
-              </Link>
-            </li>
-            <li>
-              {localStorage.getItem("login") === "user" ||
-              localStorage.getItem("login") === "admin" ? (
-                <Link
-                  to="/"
-                  className="hover:text-blue-500 "
-                  onClick={() => handleLogOut()}
-                >
-                  Logout
-                </Link>
-              ) : null}
-            </li>
-          </ul>
+                <li>
+                  <Link
+                    to="/contact"
+                    className="hover:text-blue-500"
+                    onClick={() => closeDropdowns()}
+                  >
+                    Contact
+                  </Link>
+                </li>
+                <li>
+                  {localStorage.getItem("login") === "user" ? (
+                    <Link
+                      to="/"
+                      className="hover:text-blue-500 "
+                      onClick={() => handleLogOut()}
+                    >
+                      Logout
+                    </Link>
+                  ) : null}
+                </li>
+              </ul>
+            </>
+          )}
         </div>
       </nav>
     </>

@@ -1,62 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function ListingService() {
   const [toggle, setToggle] = useState(1);
+  const [carModels, setCarModels] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   function Toggle(id) {
     setToggle(id);
   }
 
-  const [carModels, setCarModels] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    // const fetchData = async () => {
-    //   try {
-    //     const response = await fetch(
-    //       "legal257.pythonanywhere.com/api/bulkupload_excel/"
-    //     );
-    //     const result = await response.text();
-    //     console.log(result);
-    //     // if (response) {
-    //     //   setCarModels(response);
-    //     // } else {
-    //     //   console.error("Invalid data format:", response);
-    //     //   setError("Error fetching data. Please try again later.");
-    //     // }
-    //   } catch (error) {
-    //     console.error("Error fetching car models:", error);
-    //     setError("Error fetching data. Please try again later.");
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
-    //     fetchData();
-  }, []);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          "https://legal257.pythonanywhere.com/api/bulkupload_excel/"
-        );
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const contentType = response.headers.get("content-type");
-        if (contentType && contentType.includes("application/json")) {
-          const result = await response.json();
-          console.log("first---->", result);
-          setCarModels(result);
-        } else {
-          console.error("Unexpected response format:", await response.text());
-        }
+        const response = await fetch("https://legal257.pythonanywhere.com/api/bulkupload_excel/");
+        const responseData = await response.json();
+        setCarModels(responseData);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching car models:', error);
+        setError('Error fetching data. Please try again later.');
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -66,9 +31,10 @@ export default function ListingService() {
   const navigate = useNavigate();
 
   const handleRowClick = (item) => {
-    console.log(item);
     navigate(`/auction/${item}`);
   };
+
+  const displayedCarModels = carModels.slice(0, 20); // Display the first 20 items
 
   return (
     <>
@@ -103,12 +69,14 @@ export default function ListingService() {
                   <th className="py-3 px-4 font-semibold">LOCATION</th>
                   <th className="py-3 px-4 font-semibold">FORMAT</th>
                   <th className="py-3 px-4 font-semibold">ENDING</th>
-                  <th className="py-3 px-4 font-semibold">VEHICLE AVAILABLE</th>
+                  <th className="py-3 px-4 font-semibold">
+                    VEHICLE AVAILABLE
+                  </th>
                 </tr>
               </thead>
               <tbody className="text-gray-700">
-                {carModels.map((item, index) => (
-                  <tr key={index} onClick={() => handleRowClick(item.deal_no)}>
+                {displayedCarModels.map((item, index) => (
+                  <tr key={index} onClick={() => handleRowClick(item.dealer_name)}>
                     <td className="py-3 px-4 font-semibold">
                       {item.dealer_name}
                     </td>
