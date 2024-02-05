@@ -20,6 +20,9 @@ import PaymentDetails from "./componants/PaymentDetails";
 import ProfileCard from "./componants/ProfileCard";
 import RequestForRegistration from "./componants/RequestForRegistration";
 import Socket from "./componants/Socket";
+import TermAndCondition from "./componants/TermAndCondition";
+import RefundPolicy from "./componants/RefundPolicy";
+import PrivacyAndPolicy from "./componants/PrivacyAndPolicy";
 
 
 const App = () => {
@@ -46,6 +49,12 @@ const App = () => {
           <Route path="/profile-details" element={<ProfileCard />} />
           <Route path="/requestForRegister" element={<RequestForRegistration />} />
           <Route path="/socket" element={<Socket />} />
+          <Route path="/termAndCondition" element={<TermAndCondition />} />
+          <Route path="/refund" element={<RefundPolicy />} />
+          <Route path="/privacyPolicy" element={<PrivacyAndPolicy />} />
+
+
+
 
 
 

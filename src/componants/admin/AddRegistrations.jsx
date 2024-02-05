@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { servieUrl } from '../../env/env';
 
 const AddRegistrations = () => {
   const [formData, setFormData] = useState({
@@ -73,7 +74,7 @@ const AddRegistrations = () => {
         redirect: 'follow',
       };
 
-      fetch("http://127.0.0.1:8000/api/accounts/", requestOptions)
+      fetch(servieUrl.url + "api/accounts/", requestOptions)
         .then(response => response.text())
         .then(result =>{ console.log(result)
           emailSending()
@@ -93,7 +94,7 @@ var requestOptions = {
   redirect: 'follow'
 };
 
-fetch("http://127.0.0.1:8000/api/emailNewRegistratinos/", requestOptions)
+fetch(servieUrl.url + "api/emailNewRegistratinos/", requestOptions)
   .then(response => response.text())
   .then(result => console.log(result))
   .catch(error => console.log('error', error));

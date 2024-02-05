@@ -1,5 +1,6 @@
 // CarModelList.js
 import React, { useState, useEffect } from 'react';
+import { servieUrl } from '../../env/env';
 
 const CarModelList = () => {
   const [carModels, setCarModels] = useState([]);
@@ -9,7 +10,7 @@ const CarModelList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/carmodels/list/");
+        const response = await fetch( servieUrl.url + "api/carmodels/list/");
         const responseData = await response.json();
 
         // Check if response has a 'data' property with an array
@@ -60,7 +61,7 @@ const CarModelList = () => {
       redirect: 'follow',
     };
 
-    fetch('http://127.0.0.1:8000/api/bidding/', requestOptions)
+    fetch(servieUrl.url + 'api/bidding/', requestOptions)
       .then((response) => response.text())
       .then((result) => {
         console.log(result);

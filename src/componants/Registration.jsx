@@ -6,6 +6,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Link } from "react-router-dom";
+import { servieUrl } from "../env/env";
 
 export default function Registration({ onClose }) {
   const [formData, setFormData] = useState({
@@ -206,7 +207,7 @@ export default function Registration({ onClose }) {
       };
 
       const response = await fetch(
-        "http://127.0.0.1:8000/api/login/",
+        servieUrl.url + "api/login/",
         requestOptions
       );
       const result = await response.json();

@@ -1,92 +1,97 @@
-// Your React component
-import React, { useState, useEffect } from 'react';
+
+
+import React, { useState } from 'react';
 
 const Socket = () => {
-    const [input1, setInput1] = useState('');
-    const [input2, setInput2] = useState('');
-    const [message, setMessage] = useState('');
-    const [socket, setSocket] = useState(null);
+  const [selectedState, setSelectedState] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState(null);
 
-    useEffect(() => {
-        const newSocket = new WebSocket('ws://your-django-backend/ws/some_path/');
+  const handleStateChange = (e) => {
+    const stateId = parseInt(e.target.value, 10);
+    setSelectedState(stateId);
+    setSelectedLocation(null);
+  };
 
-        newSocket.onopen = () => {
-            console.log('WebSocket connection opened');
-        };
+  const handleLocationChange = (e) => {
+    const locationId = parseInt(e.target.value, 10);
+    setSelectedLocation(locationId);
+  };
 
-        newSocket.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            setMessage(`Message received from Django: ${data.message}`);
-        };
+  return (
+    <div>
+      <label htmlFor="stateDropdown">Select State:</label>
+      <select id="stateDropdown" onChange={handleStateChange} value={selectedState || ''}>
+        <option value="">Select State</option>
+        {stateData.map((state) => (
+          <option key={state.id} value={state.id}>
+            {state.name}
+          </option>
+        ))}
+      </select>
 
-        newSocket.onclose = () => {
-            console.log('WebSocket connection closed');
-        };
-
-        setSocket(newSocket);
-
-        return () => {
-            // Close the WebSocket connection when the component unmounts
-            newSocket.close();
-        };
-    }, []);
-
-    const handleInputChange1 = (e) => {
-        setInput1(e.target.value);
-    };
-
-    const handleInputChange2 = (e) => {
-        setInput2(e.target.value);
-    };
-
-    const handleUpdate = () => {
-        if (socket && socket.readyState === WebSocket.OPEN) {
-            const data = {
-                input1,
-                input2,
-            };
-            socket.send(JSON.stringify(data));
-        }
-    };
-
-    return (
-        <div className="container mx-auto mt-8 p-4">
-            <div className="mb-4">
-                <label htmlFor="input1" className="block text-sm font-medium text-gray-700">
-                    Input 1
-                </label>
-                <input
-                    type="text"
-                    id="input1"
-                    className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-                    value={input1}
-                    onChange={handleInputChange1}
-                />
-            </div>
-            <div className="mb-4">
-                <label htmlFor="input2" className="block text-sm font-medium text-gray-700">
-                    Input 2
-                </label>
-                <input
-                    type="text"
-                    id="input2"
-                    className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-                    value={input2}
-                    onChange={handleInputChange2}
-                />
-            </div>
-            <button
-                className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
-                onClick={handleUpdate}
-            >
-                Update
-            </button>
-            <div className="mt-4 text-gray-700">{message}</div>
-        </div>
-    );
+      {selectedState && (
+        <>
+          <label htmlFor="locationDropdown">Select Location:</label>
+          <select id="locationDropdown" onChange={handleLocationChange} value={selectedLocation || ''}>
+            <option value="">Select Location</option>
+            {cityData[selectedState].map((city) => (
+              districtData[city.id].map((district) => (
+                <option key={district.id} value={district.id}>
+                  {city.name}, {district.name}
+                </option>
+              ))
+            ))}
+          </select>
+        </>
+      )}
+    </div>
+  );
 };
 
+export default Socket;
 
 
-
-export default Socket
+const stateData = [
+    { id: 1, name: 'State 1' },
+    { id: 2, name: 'State 2' },
+    // Add more states as needed
+  ];
+  
+  const cityData = {
+    1: [
+      { id: 11, name: 'City 1-1' },
+      { id: 12, name: 'City 1-2' },
+      // Add more cities for State 1
+    ],
+    2: [
+      { id: 21, name: 'City 2-1' },
+      { id: 22, name: 'City 2-2' },
+      // Add more cities for State 2
+    ],
+    // Add more cities for other states
+  };
+  
+  const districtData = {
+    11: [
+      { id: 111, name: 'District 1-1-1' },
+      { id: 112, name: 'District 1-1-2' },
+      // Add more districts for City 1-1
+    ],
+    12: [
+      { id: 121, name: 'District 1-2-1' },
+      { id: 122, name: 'District 1-2-2' },
+      // Add more districts for City 1-2
+    ],
+    21: [
+      { id: 211, name: 'District 2-1-1' },
+      { id: 212, name: 'District 2-1-2' },
+      // Add more districts for City 2-1
+    ],
+    22: [
+      { id: 221, name: 'District 2-2-1' },
+      { id: 222, name: 'District 2-2-2' },
+      // Add more districts for City 2-2
+    ],
+    // Add more districts for other cities
+  };
+  

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Select from "react-select";
+import { servieUrl } from "../env/env";
 
 const options = [
   { value: "BankAuctions", label: "Bank Auctions", amount: 8850 },
@@ -96,7 +97,7 @@ function PaymentDetails() {
       redirect: "follow",
     };
 
-    fetch("http://127.0.0.1:8000/api/api/payment/", requestOptions)
+    fetch(servieUrl.url + "api/api/payment/", requestOptions)
       .then((response) => response.text())
       .then((result) =>{
         setQr(true)
